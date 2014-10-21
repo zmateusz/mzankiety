@@ -1,4 +1,10 @@
 Mzankiety::Application.routes.draw do
+  resources :polls do
+  	resources :answers do
+      resources :votes
+    end
+  end
+  
   root "pages#home"    
   get "home", to: "pages#home", as: "home"
   get "inside", to: "pages#inside", as: "inside"

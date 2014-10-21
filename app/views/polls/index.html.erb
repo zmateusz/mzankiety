@@ -1,0 +1,29 @@
+<h1>Listing polls</h1>
+<%= current_user.id %>
+<%= link_to 'New Poll', new_poll_path %>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th class="col-md-2">Name</th>
+      <th class="col-md-2">Author</th>
+      <th class="col-md-2">Date</th>
+      <th class="col-md-1"></th>
+      <th class="col-md-1"></th>
+      <th class="col-md-1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @polls.each do |poll| %>
+      <tr>
+        <td><%= poll.name %></td>
+        <td><%= poll.author %></td>
+        <td><%= poll.created_at.strftime("%R @ %d-%m-%Y") %></td>
+        <td><%= button_to 'Show', poll, method: 'get', class:"btn btn-primary"%></td>
+        <td><%= button_to 'Edit', edit_poll_path(poll), method: 'get', class:"btn btn-info" %></td>
+        <td><%= button_to 'Destroy', poll, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

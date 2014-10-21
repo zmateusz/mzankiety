@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+	<strong>Name:</strong>
+	<%= @poll.name %><br>
+	<strong>Author:</strong>
+	<%= @poll.author %><br>
+	<strong>Date:</strong>
+	<%= @poll.created_at %>
+</p>
+
+<h2>Answers</h2>
+<% @poll.answers.each do |answer| %>
+	<p>
+		<strong>Option:</strong>
+		<%= answer.option %>
+		<%= answer.created_at %>
+
+	</p>
+<% end %>
+
+<h2>Add an answer:</h2>
+<%= form_for([@poll, @poll.answers.build]) do |f| %>
+	<p>
+		<%= f.label :option %><br>
+		<%= f.text_field :option %>
+	</p>
+	<p>
+		<%= f.submit %>
+	</p>
+<% end %>
+
+<%= link_to 'Edit', edit_poll_path(@poll) %> |
+<%= link_to 'Back', polls_path %>
