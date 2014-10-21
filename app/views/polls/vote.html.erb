@@ -1,0 +1,31 @@
+<h1>Imma voting!</h1>
+
+<%= @poll.name %>
+
+<% @poll.answers.each do |answer| %>
+  <p>
+    <strong>Option:</strong>
+    <%= answer.option %>
+
+<%= radio_button_tag(:answer, answer.option) %>
+<%= label_tag(answer.option, answer.option) %>
+  </p>
+<% end %>
+
+
+<%= form_for :vote do |f| %>
+<P>
+<% @poll.answers.each do |answer| %>
+  <p>
+    <strong>Option:</strong>
+    <%= answer.option %>
+
+<%= radio_button_tag(:vote, answer.option) %>
+<%= label_tag(answer.option, answer.option) %>
+  </p>
+<% end %>
+</P>
+  <p>
+    <%= f.submit "Głosuj" %>
+  </p>
+<% end %>

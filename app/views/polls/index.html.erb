@@ -1,5 +1,4 @@
 <h1>Listing polls</h1>
-<%= current_user.id %>
 <%= link_to 'New Poll', new_poll_path %>
 
 <table class="table">
@@ -8,6 +7,7 @@
       <th class="col-md-2">Name</th>
       <th class="col-md-2">Author</th>
       <th class="col-md-2">Date</th>
+      <th class="col-md-1"></th>
       <th class="col-md-1"></th>
       <th class="col-md-1"></th>
       <th class="col-md-1"></th>
@@ -23,6 +23,7 @@
         <td><%= button_to 'Show', poll, method: 'get', class:"btn btn-primary"%></td>
         <td><%= button_to 'Edit', edit_poll_path(poll), method: 'get', class:"btn btn-info" %></td>
         <td><%= button_to 'Destroy', poll, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %></td>
+        <td><%= button_to 'Vote', vote_poll_path(poll), method: 'get', class:"btn btn-success"%></td>
       </tr>
     <% end %>
   </tbody>
