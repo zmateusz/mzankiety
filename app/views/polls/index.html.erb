@@ -1,9 +1,10 @@
 <h1>Listing polls</h1>
-<%= link_to 'New Poll', new_poll_path %>
+<%= button_to 'New Poll', new_poll_path, method: :get, class:"btn btn-success" %>
 
 <table class="table">
   <thead>
     <tr>
+      <th class="col-md-1">id</th>
       <th class="col-md-2">Name</th>
       <th class="col-md-2">Author</th>
       <th class="col-md-2">Date</th>
@@ -17,6 +18,7 @@
   <tbody>
     <% @polls.each do |poll| %>
       <tr>
+        <td><%= poll.id %></td>
         <td><%= poll.name %></td>
         <td><%= poll.author %></td>
         <td><%= poll.created_at.strftime("%R @ %d-%m-%Y") %></td>

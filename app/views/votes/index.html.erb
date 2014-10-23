@@ -1,0 +1,28 @@
+
+
+<table class="table" style="width:500px">
+  <thead>
+    <tr>
+      <th class="col-md-2">author</th>
+      <th class="col-md-1">time</th>
+      <th class="col-md-2">answer id</th>
+      <th class="col-md-2">poll id</th>
+      <th class="col-md-1">answer</th>
+      <th class="col-md-1">poll</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @votes.each do |vote| %>
+      <tr>
+        <td><%= vote.author %></td>
+        <td><%= vote.created_at %></td>
+        <td><%= vote.answer_id %></td>
+        <td><%= vote.poll_id %></td>
+        <td><%= if vote.answer then vote.answer.option end%></td>
+        <td><%= if vote.answer then vote.answer.poll.name end %></td>
+        <td><%= link_to 'Destroy', vote, method: :delete, data: { confirm: 'Are you sure?' }%></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

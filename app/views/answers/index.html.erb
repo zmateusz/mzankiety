@@ -1,0 +1,28 @@
+
+
+<table class="table" style="width:550px">
+  <thead>
+    <tr>
+      <th class="col-md-1">id</th>
+      <th class="col-md-1">time</th>
+      <th class="col-md-1">option</th>
+      <th class="col-md-1">poll id</th>
+      <th class="col-md-1">poll</th>
+      <th class="col-md-1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @answers.each do |answer| %>
+      <tr>
+        <td><%= answer.id %></td>
+        <td><%= answer.created_at %></td>
+        <td><%= answer.option %></td>
+        <td><%= answer.poll_id %></td>
+        <td><%= answer.poll.name %></td>
+        <td><%= link_to 'Destroy', answer, method: :delete, data: { confirm: 'Are you sure?' }%></td>
+        <td><%= answer.votes.count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
