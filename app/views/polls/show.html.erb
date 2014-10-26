@@ -3,23 +3,26 @@
 <p>
 	<strong>Name:</strong>
 	<%= @poll.name %><br>
+	<strong>Typ:</strong>
+	<%= @poll.typ %><br>
 	<strong>Author:</strong>
 	<%= @poll.author %><br>
 	<strong>Date:</strong>
-	<%= @poll.created_at %>
+	<%= @poll.created_at %><br>
+		<strong>Descr:</strong>
+	<%= @poll.descr %><br>
 </p>
 
-<h2>Answers</h2>
+<p><h3>Answers</h3>
+<ul>
 <% @poll.answers.each do |answer| %>
-	<p>
-		<strong>Option:</strong>
+	<li>
 		<%= answer.option %>
-		<%= answer.created_at %>
-
-	</p>
+	</li>
 <% end %>
+</ul></p>
 
-<h2>Add an answer:</h2>
+<h3>Add an answer:</h3>
 <%= form_for([@poll, @poll.answers.build]) do |f| %>
 	<p>
 		<%= f.label :opcja %><br>

@@ -28,6 +28,7 @@ class PollsController < ApplicationController
   # POST /polls
   # POST /polls.json
   def create
+    #render plain: params.inspect
     @poll = Poll.new(poll_params)
     if current_user == nil
       @poll.author = "anonim"
@@ -77,6 +78,6 @@ class PollsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def poll_params
-      params.require(:poll).permit(:name)
+      params.require(:poll).permit(:name, :typ, :descr)
     end
 end

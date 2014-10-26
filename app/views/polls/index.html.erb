@@ -6,6 +6,7 @@
     <tr>
       <th class="col-md-1">id</th>
       <th class="col-md-2">Name</th>
+      <th class="col-md-1">Type</th>
       <th class="col-md-2">Author</th>
       <th class="col-md-2">Date</th>
       <th class="col-md-1"></th>
@@ -19,7 +20,8 @@
     <% @polls.each do |poll| %>
       <tr>
         <td><%= poll.id %></td>
-        <td><%= poll.name %></td>
+        <td><%= link_to poll.name, poll %></td>
+        <td><%= poll.typ %></td>
         <td><%= poll.author %></td>
         <td><%= poll.created_at.strftime("%R @ %d-%m-%Y") %></td>
         <td><%= button_to 'Show', poll, method: 'get', class:"btn btn-primary"%></td>
