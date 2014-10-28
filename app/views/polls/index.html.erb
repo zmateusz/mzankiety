@@ -13,9 +13,10 @@
       <th class="col-md-1"></th>
       <th class="col-md-1"></th>
       <th class="col-md-1"></th>
+      <th class="col-md-1"></th>
     </tr>
   </thead>
-
+<%   -%>
   <tbody>
     <% @polls.each do |poll| %>
       <tr>
@@ -28,6 +29,7 @@
         <td><%= button_to 'Edit', edit_poll_path(poll), method: 'get', class:"btn btn-info" %></td>
         <td><%= button_to 'Destroy', poll, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %></td>
         <td><%= button_to 'Vote', vote_poll_path(poll), method: 'get', class:"btn btn-success"%></td>
+        <td><%= button_to 'Results', result_poll_path(poll), method: 'get', class:"btn btn-success"%></td>
       </tr>
     <% end %>
   </tbody>

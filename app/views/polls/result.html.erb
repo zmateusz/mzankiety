@@ -1,0 +1,5 @@
+<%= javascript_include_tag "http://www.google.com/jsapi", "chartkick" %>
+
+<%= @poll.name -%>
+
+<%= pie_chart @ans.group(:option).sum(:counter) %>

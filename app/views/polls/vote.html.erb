@@ -1,18 +1,36 @@
+<div class="row">
+  <div class="col-md-4"><br><img src="http://placekitten.com/g/251/400"></div>
+  <div class="col-md-4">
+
 <h3>Voting</h3>
 
 <p><%= @poll.name %><br>
   <%= @poll.descr %>
 
+  <% case @poll.typ %>
+  <% when "Radio"%>
+  <%= form_for :vote do |f| %>
+    <% @poll.answers.each do |answer| %>
+      <%= radio_button_tag(:vote, answer.id) %>
+      <%= label_tag(answer.option, answer.option) %><br>
+      <% end %>
+    <%= f.submit "Głosuj", class: 'btn btn-primary'%>
+    <% end %>
+  <% when "Checkbox"%>
+    <%= simple_form_for :vote do |f| %>
+    <%= f.input :vote, as: :check_boxes, collection: @ans, label: false%>
+    <%= f.button :submit, class: 'btn btn-primary'%>
+    <% end %>
+  <% when "Text"%>
+    <%= form_for :vote do |f| %>  
+      <p><%= text_field_tag(:vote) %></p>
+    <%= f.submit "Głosuj", class: 'btn btn-primary'%>
+    <% end %>
 
-<%= form_for :vote do |f| %>
-<p>
-<% @poll.answers.each do |answer| %>
-  <%= radio_button_tag(:vote, answer.id) %>
-  <%= label_tag(answer.option, answer.option) %>
-  <br>
-<% end %>
-</p>
-  <p>
-    <%= f.submit "Głosuj" %>
-  </p>
-<% end %>
+  <% end %>
+
+
+  </div>
+  <div class="col-md-4"></div>
+</div>
+

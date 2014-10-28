@@ -1,6 +1,7 @@
 Mzankiety::Application.routes.draw do
   resources :polls do
     get 'vote', on: :member
+    get 'result', on: :member
   	resources :answers
   end
 
@@ -13,6 +14,7 @@ Mzankiety::Application.routes.draw do
 
   post "/polls/:poll_id/vote", to: "votes#create"
   post "/votes", to: "votes#create"
+  get "/polls/:poll_id/result", to: "polls#result"
   get 'answers', to: "answers#index"
   get 'votes', to: "votes#index"
 

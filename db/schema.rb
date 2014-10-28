@@ -11,13 +11,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141026195818) do
+ActiveRecord::Schema.define(version: 20141028172135) do
 
   create_table "answers", force: true do |t|
     t.string   "option"
     t.integer  "poll_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "counter"
   end
 
   add_index "answers", ["poll_id"], name: "index_answers_on_poll_id"
@@ -79,6 +80,7 @@ ActiveRecord::Schema.define(version: 20141026195818) do
     t.integer  "poll_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "custom"
   end
 
   add_index "votes", ["answer_id"], name: "index_votes_on_answer_id"

@@ -11,6 +11,9 @@ gem 'bcrypt', '3.1.7'
 gem 'rake', '10.3.1'
 
 gem 'tzinfo-data'
+gem 'simple_form'
+gem 'chartkick'
+gem 'webrick', '1.3.1'
 
 group :doc do
   gem 'sdoc', require: false
