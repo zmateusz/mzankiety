@@ -23,7 +23,7 @@ class PollsController < ApplicationController
 
   def vote
     #@vote = Vote.new
-    @ans = []
+    @ans = [] 
     @poll.answers.each do |answer| 
       @ans.push(answer.option)
     end 
@@ -32,8 +32,7 @@ class PollsController < ApplicationController
   def result
     @poll = Poll.find(params[:id])
     @ans = @poll.answers
-    @as = @poll.answers.count
-    
+    @n = @poll.answers.sum(:counter).to_i
   end
 
   # POST /polls

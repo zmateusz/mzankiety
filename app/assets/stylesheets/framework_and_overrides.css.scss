@@ -158,7 +158,8 @@ $navbar-default-toggle-border-color: #dddddd;
 // Navbar: Inverted navbar
 // -> Basics
 $navbar-inverse-color: #eeeeee; 
-$navbar-inverse-bg: #222222; 
+//$navbar-inverse-bg: #222222; 
+$navbar-inverse-bg: #428BCA; 
 $navbar-inverse-border: darken($navbar-inverse-bg, 7%); 
 // -> Links
 $navbar-inverse-link-color: #eeeeee; 
