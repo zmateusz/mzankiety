@@ -4,6 +4,9 @@ class PagesController < ApplicationController
   ]
 
   def home
+    @polls = Poll.count
+    @votes = Vote.count
+    @users = User.count
   end
   
   def inside

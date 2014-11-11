@@ -18,7 +18,7 @@
     <% end %>
   <% when "Checkbox"%>
     <%= simple_form_for :vote do |f| %>
-    <%= f.input :vote, as: :check_boxes, collection: @ans, label: false%>
+    <%= f.input :choices, as: :check_boxes, collection: @ans, label: false%>
     <%= f.button :submit, class: 'btn btn-primary'%>
     <% end %>
   <% when "Text"%>
@@ -29,7 +29,7 @@
 
   <% end %>
 
-
+<%= paginate @polls %>
   </div>
   <div class="col-md-4"></div>
 </div>

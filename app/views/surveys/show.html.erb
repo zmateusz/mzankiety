@@ -1,0 +1,41 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @survey.name %>
+</p>
+
+<p>
+  <strong>Descr:</strong>
+  <%= @survey.descr %>
+</p>
+
+<p>
+  <strong>Author:</strong>
+  <%= @survey.author %>
+</p>
+
+<p><h3>Questions</h3>
+<ul>
+<% @survey.polls.each do |poll| %>
+  <li>
+    <%= poll.name %>
+  </li>
+<% end %>
+</ul></p>
+
+<h3>Add a question:</h3>
+<%= form_for([@survey, @survey.polls.build]) do |f| %>
+  <p>
+    <%= f.label :opcja %><br>
+    <%= f.text_field :name %>
+    <%= hidden_field_tag(:survey_id, @survey.id) %>
+  </p>
+  <p>
+    <%= f.submit %>
+  </p>
+<% end %>
+
+
+<%= link_to 'Edit', edit_survey_path(@survey) %> |
+<%= link_to 'Back', surveys_path %>

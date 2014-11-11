@@ -1,4 +1,8 @@
 Mzankiety::Application.routes.draw do
+  resources :surveys do
+  resources :polls
+end
+
   resources :polls do
     get 'vote', on: :member
     get 'result', on: :member

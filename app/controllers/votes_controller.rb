@@ -1,7 +1,7 @@
 class VotesController < ApplicationController
 
   def index
-    @votes = Vote.order(created_at: :asc)    
+    @votes = Vote.order(created_at: :desc)    
   end
 
   def create
@@ -18,12 +18,25 @@ class VotesController < ApplicationController
       @answer = Answer.find(params[:vote])
       @answer.counter +=1
       @answer.save
-      @vote = @answer.votes.create("author" => user, "poll_id" => params[:poll_id])
-      redirect_to poll_path(params[:poll_id])
+      @vote = @answer.votes.create("author" => user, "poll_id" => params[:poll_id], "custom" => @answer.option)
+    elsif @poll.typ == "Checkbox"
+      @boxes = params[:vote]
+      @text =""
+      @boxes[:choices].reject! { |c| c.empty? }
+      @boxes[:choices].each {|x| @text += x + ","}
+      @vote = Vote.new("author" => user, "poll_id" => params[:poll_id], "custom" => @text)
+      @vote.save
     else
       @vote = Vote.new("author" => user, "poll_id" => params[:poll_id], "custom" => params[:vote])
       @vote.save
-      redirect_to poll_path(params[:poll_id])
+    end
+    #redirect_to poll_path(params[:poll_id])
+    #redirect_to votes_path
+    @po = Poll.where('id > ?', params[:poll_id]).last
+    if @po == nil 
+      redirect_to votes_path
+    else
+      redirect_to vote_poll_path(@po)
     end
   end
 

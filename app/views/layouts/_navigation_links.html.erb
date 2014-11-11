@@ -1,16 +1,16 @@
-<li><%= link_to "Sondy", polls_path %></li>
-<li><%= link_to "Odpowiedzi", answers_path %></li>
-<li><%= link_to "Głosy", votes_path %></li>
+<li><%= link_to '<i class="fa fa-file-o fa-lg"></i> Ankiety'.html_safe, surveys_path %></li>
+<li><%= link_to '<i class="fa fa-question-circle fa-lg"></i> Sondy'.html_safe, polls_path %></li>
+<li><%= link_to '<i class="fa fa-check-square-o fa-lg"></i> Odpowiedzi'.html_safe, answers_path %></li>
+<li><%= link_to '<i class="fa fa-comments fa-lg"></i> Głosy'.html_safe, votes_path %></li>
 <% if !user_signed_in? %>
-<li><%= link_to "Sign in", new_user_session_path %></li>
-<li><%= link_to "Sign up", new_user_registration_path %></li>
+<li><%= link_to '<i class="fa fa-user fa-lg"></i> Zaloguj'.html_safe, new_user_session_path %></li>
+<li><%= link_to '<i class="fa fa-plus fa-lg"></i> Zarejestruj'.html_safe, new_user_registration_path %></li>
 <% else %>
-<li><%= link_to "Protected Page", inside_path %></li>
-<li><%= link_to "Edit your account", edit_user_registration_path %></li>
+<li><%= link_to '<i class="fa fa-lock fa-lg"></i> Protected Page'.html_safe, inside_path %></li>
+<li><%= link_to '<i class="fa fa-edit fa-lg"></i> Edytuj konto'.html_safe, edit_user_registration_path %></li>
 
 <% if current_user.admin? %>
-<li><%= link_to "Admin", admin_root_path %></li>
+<li><%= link_to '<i class="fa fa-star-o fa-lg"></i> Admin'.html_safe, admin_root_path %></li>
 <% end %>
-
-<li><%= link_to "Sign out", destroy_user_session_path, data:{method: :delete} %></li>
+<li><%= link_to '<i class="fa fa-close fa-lg"></i> Wyloguj'.html_safe, destroy_user_session_path, data:{method: :delete} %></li>
 <% end %>

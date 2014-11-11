@@ -1,4 +1,28 @@
-<% title("Home Page") %>
-<h1><i class="fa fa-home"></i> Home Page <small>views/pages/home.html.erb</small></h1>
-<p>This is your home page. Use the menu at the top to sign in / sign up / sign out.</p>
+<% title("Strona główna") %>
 
+
+<div class="row">
+  <div class="col-md-7">
+    <h1><i class="fa fa-home"></i> Strona główna </h1>
+  </div>
+
+
+  <div class="col-md-4">
+    <br>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        <h3 class="panel-title"><i class="fa fa-bar-chart"></i> Statystyki strony</h3>
+      </div>
+      <div class="panel-body">
+        <h5>Ilość ankiet: <%= @polls %><br>
+        Ilość głosów: <%= @votes %><br>
+        Użytkowników: <%= @users %><br></h5>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-1">
+
+  </div>
+
+</div>

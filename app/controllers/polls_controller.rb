@@ -4,7 +4,7 @@ class PollsController < ApplicationController
   # GET /polls
   # GET /polls.json
   def index
-    @polls = Poll.all
+    @polls = Poll.order(:id).page params[:page]
   end
 
   # GET /polls/1
@@ -22,6 +22,7 @@ class PollsController < ApplicationController
   end
 
   def vote
+    @polls = Poll.order(:id).page params[:page]
     #@vote = Vote.new
     @ans = [] 
     @poll.answers.each do |answer| 
@@ -40,6 +41,7 @@ class PollsController < ApplicationController
   def create
     #render plain: params.inspect
     @poll = Poll.new(poll_params)
+    @poll.survey_id = params[:survey_id]
     if current_user == nil
       @poll.author = "anonim"
     else
@@ -88,6 +90,6 @@ class PollsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def poll_params
-      params.require(:poll).permit(:name, :typ, :descr)
+      params.require(:poll).permit(:name, :typ, :descr, :survey_id)
     end
 end
