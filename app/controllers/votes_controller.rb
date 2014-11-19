@@ -32,7 +32,7 @@ class VotesController < ApplicationController
     end
     #redirect_to poll_path(params[:poll_id])
     #redirect_to votes_path
-    @po = Poll.where('id > ?', params[:poll_id]).last
+    @po = Poll.where('id > ?', params[:poll_id]).first
     if @po == nil 
       redirect_to votes_path
     else
