@@ -39,9 +39,9 @@ class PollsController < ApplicationController
   # POST /polls
   # POST /polls.json
   def create
-    #render plain: params.inspect
+    render plain: params.inspect
     @poll = Poll.new(poll_params)
-    @poll.survey_id = params[:survey_id]
+    if params[:survey_id] != nil then @poll.survey_id = params[:survey_id] end
     if current_user == nil
       @poll.author = "anonim"
     else

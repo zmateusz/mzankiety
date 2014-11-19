@@ -26,7 +26,7 @@
         <td><%= poll.typ %></td>
         <td><%= poll.author %></td>
         <td><%= poll.created_at.strftime("%R @ %d-%m-%Y") %></td>
-        <td><%#  poll.survey.id %></td>
+        <td><%= if poll.survey then poll.survey.id end %></td>
         <td><%= button_to 'Show', poll, method: 'get', class:"btn btn-primary"%></td>
         <td><%= button_to 'Edit', edit_poll_path(poll), method: 'get', class:"btn btn-info" %></td>
         <td><%= button_to 'Destroy', poll, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %></td>
