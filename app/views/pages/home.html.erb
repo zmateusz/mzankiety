@@ -2,9 +2,12 @@
 
 
 <div class="row">
-  <div class="col-md-7">
+  <div class="col-md-6 col-md-offset-1">
     <h1><i class="fa fa-home"></i> Strona główna </h1>
-    <br><%= image_tag('wip.png') %>
+    <div class="well">
+      <%= link_to 'Nowa sonda', new_poll_path, :class => 'btn btn-success' %><br><br>
+      <%= link_to 'Nowa ankieta', new_survey_path, :class => 'btn btn-success' %>
+    </div>  
   </div>
 
 
@@ -20,6 +23,10 @@
         Użytkowników: <%= @users %><br></h5>
       </div>
     </div>
+    <%= image_tag('wip.png', size: "150") %>
+    <br>Wszystkie funkcje dostępne bez autoryzacji. <br>
+    Do poprawnego wyświetlania wykresów zalecana aktualna przeglądarka. <br>
+    Kod źródłowy <%= link_to 'tutaj.', "https://github.com/zmateusz/mzankiety" %>
   </div>
 
   <div class="col-md-1">

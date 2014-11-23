@@ -1,7 +1,10 @@
 <%= javascript_include_tag "http://www.google.com/jsapi" %>
 <%= javascript_include_tag "application", "chartkick" %>
 
-<p><%= @poll.name %></p>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">
+
+    <p><%= @poll.name %></p>
 
 <p>
 <% @poll.answers.each do |answer| %>
@@ -20,6 +23,11 @@
 </p>
 
 <p>głosów: <%= @n %></p>
+
+  </div>
+</div>
+
+
 
 <%= pie_chart @ans.group(:option).sum(:counter) %>
 <%= column_chart @ans.group(:option).sum(:counter), colors: ["#999"] %>

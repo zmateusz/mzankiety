@@ -30,14 +30,18 @@ class VotesController < ApplicationController
       @vote = Vote.new("author" => user, "poll_id" => params[:poll_id], "custom" => params[:vote])
       @vote.save
     end
+    redirect_to result_poll_path(params[:poll_id])
     #redirect_to poll_path(params[:poll_id])
     #redirect_to votes_path
-    @po = Poll.where('id > ?', params[:poll_id]).first
-    if @po == nil 
-      redirect_to votes_path
-    else
-      redirect_to vote_poll_path(@po)
-    end
+    #
+    # !KOD NA PRZEKIEROWANIE DO NASTEPNEGO PYTANIA!
+    #
+    # @po = Poll.where('id > ?', params[:poll_id]).first
+    # if @po == nil 
+    #   redirect_to votes_path
+    # else
+    #   redirect_to vote_poll_path(@po)
+    # end
   end
 
   def destroy
