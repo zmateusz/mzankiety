@@ -6,11 +6,16 @@
 <li><%= link_to '<i class="fa fa-user fa-lg"></i> Zaloguj'.html_safe, new_user_session_path %></li>
 <li><%= link_to '<i class="fa fa-plus fa-lg"></i> Zarejestruj'.html_safe, new_user_registration_path %></li>
 <% else %>
-<li><%= link_to '<i class="fa fa-lock fa-lg"></i> Protected Page'.html_safe, inside_path %></li>
-<li><%= link_to '<i class="fa fa-edit fa-lg"></i> Edytuj konto'.html_safe, edit_user_registration_path %></li>
-
-<% if current_user.admin? %>
-<li><%= link_to '<i class="fa fa-star-o fa-lg"></i> Admin'.html_safe, admin_root_path %></li>
-<% end %>
-<li><%= link_to '<i class="fa fa-close fa-lg"></i> Wyloguj'.html_safe, destroy_user_session_path, data:{method: :delete} %></li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-user fa-lg"></i> <%= current_user.username %> <span class="caret"></span></a>
+  <ul class="dropdown-menu" role="menu">
+    <% if current_user.admin? %>
+      <li><%= link_to '<i class="fa fa-star-o fa-lg"></i> Admin'.html_safe, admin_root_path %></li>
+    <% end %>
+    <li><%= link_to '<i class="fa fa-lock fa-lg"></i> Protected Page'.html_safe, inside_path %></li>
+    <li><%= link_to '<i class="fa fa-edit fa-lg"></i> Edytuj konto'.html_safe, edit_user_registration_path %></li>
+    <li class="divider"></li>
+    <li><%= link_to '<i class="fa fa-close fa-lg"></i> Wyloguj'.html_safe, destroy_user_session_path, data:{method: :delete} %></li>
+  </ul>
+</li>
 <% end %>

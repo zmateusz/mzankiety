@@ -27,7 +27,7 @@
 <%= form_for([@poll, @poll.answers.build]) do |f| %>
 	<p>
 		<%= f.label :opcja %><br>
-		<%= f.text_field :option %>
+		<%= f.text_field :option, :value => Faker::Name.first_name  %>
 	</p>
 	<p>
 		<%= f.submit %>

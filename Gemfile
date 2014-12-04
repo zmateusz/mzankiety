@@ -14,6 +14,7 @@ gem 'tzinfo-data'
 gem 'simple_form'
 gem 'chartkick'
 gem 'webrick', '1.3.1'
+gem 'ffaker'
 
 group :doc do
   gem 'sdoc', require: false
