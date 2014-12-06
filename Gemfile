@@ -26,6 +26,10 @@ group :development, :test do
   gem 'figaro', '0.7.0'     # env variables
 end
 
+group :development do
+  gem 'rails-dev-boost', :git => 'git://github.com/thedarkone/rails-dev-boost.git'
+end
+
 # Paging
 gem 'kaminari', '0.16.1'
 

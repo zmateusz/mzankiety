@@ -21,6 +21,7 @@
         <td><%= link_to 'Show', survey %></td>
         <td><%= link_to 'Edit', edit_survey_path(survey) %></td>
         <td><%= link_to 'Destroy', survey, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= button_to 'Vote', vote_poll_path(survey.polls.first), method: 'get', class:"btn btn-success"%></td>
       </tr>
     <% end %>
   </tbody>

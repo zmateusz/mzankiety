@@ -4,7 +4,8 @@ class PollsController < ApplicationController
   # GET /polls
   # GET /polls.json
   def index
-    @polls = Poll.order(:id).page params[:page]
+    #@polls = Poll.order(:id).page params[:page]
+    @polls = Poll.order(created_at: :desc).where(:survey_id => nil)
   end
 
   # GET /polls/1
