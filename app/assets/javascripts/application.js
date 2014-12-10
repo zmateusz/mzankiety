@@ -15,3 +15,8 @@
 //= require turbolinks
 //= require bootstrap
 //= require_tree .
+ $(document).ready(function() {
+  $('.delete_item').bind('ajax:before', function() {
+    $(this).closest('tr').fadeOut();
+});
+});

@@ -11,10 +11,12 @@
     </div>
   <% end %>
 
+  <a class="btn btn-primary" id="aaa" onclick="getRandom();">Random name</a>
+  
   <div class="form-group"> 
   <div class="field" style="width:80%">
     <%= f.label :name %><br>
-    <%= f.text_field :name , class: "form-control", :value => Faker::Company.catch_phrase %>
+    <%= f.text_field :name , class: "form-control" %>
   </div>
   <div class="field" style="width:80%">
     <%= f.label :descr %><br>
@@ -32,6 +34,18 @@
   <div class="actions">
     <%= f.submit "Wyslij", class: "btn btn-primary"%>
   </div>
- 
-      
 <% end %>
+
+<script>
+  function getRandom(){
+    $.ajax({
+      url: '/polls/new',
+      dataType: 'json',
+      type: 'GET',
+      success: function(data){
+        document.getElementById('poll_name').value = data['response'];
+      }
+    });
+
+  };
+</script>

@@ -16,6 +16,10 @@ class PollsController < ApplicationController
   # GET /polls/new
   def new
     @poll = Poll.new
+    respond_to do |format|
+      format.html
+      format.js { render json: {success: true, response: Faker::Company.catch_phrase} }
+    end
   end
 
   # GET /polls/1/edit

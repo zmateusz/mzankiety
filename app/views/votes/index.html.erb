@@ -1,5 +1,3 @@
-
-
 <table class="table" style="width:500px">
   <thead>
     <tr>
@@ -24,7 +22,7 @@
         <!-- <td><%= if vote.answer then vote.answer.poll.name end %></td> -->
         <td><%= @poll = Poll.find(vote.poll_id); @poll.name %></td>
         <td><%= vote.custom %></td>
-        <td><%= link_to 'Destroy', vote, method: :delete, data: { confirm: 'Are you sure?' }%></td>
+        <td><%= link_to 'Destroy', vote, method: :delete, :remote=>true, :class=>'delete_item', data: { confirm: 'Are you sure?' }%></td>
       </tr>
     <% end %>
   </tbody>
