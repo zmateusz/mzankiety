@@ -60,7 +60,7 @@ class VotesController < ApplicationController
     @vote.destroy
     #redirect_to votes_path
     respond_to do |format|
-      format.html { redirect_to(votes_path) }
+      format.html { render :nothing => true }
       format.js   { render :nothing => true }
     end
   end

@@ -22,8 +22,25 @@
         <!-- <td><%= if vote.answer then vote.answer.poll.name end %></td> -->
         <td><%= @poll = Poll.find(vote.poll_id); @poll.name %></td>
         <td><%= vote.custom %></td>
-        <td><%= link_to 'Destroy', vote, method: :delete, :remote=>true, :class=>'delete_item', data: { confirm: 'Are you sure?' }%></td>
+        <td><%= link_to 'Destroy', vote, method: :delete, :remote=>true, :class=>'delete_item', data: { confirm: 'Are you sure?' }%>
+          <a href class="delete_item2" id="<%= vote.id %>" data-remote="true">ajax</a></td>
       </tr>
     <% end %>
   </tbody>
 </table>
+
+<script>
+    $(document).ready(function(){
+      $(".delete_item2").click(function(){
+        item = $(this).attr("id");
+        $.ajax({
+          type: 'DELETE',
+          url: '/votes/'+item,
+        });
+      });
+    });
+    $(document).on('ajax:success', '.delete_item2', function() {
+      $(this).closest('tr').slideUp();
+    }
+);
+</script>
