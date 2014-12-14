@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-4 "></div>
   <div class="col-sm-8 ">
-    <h1>Edit your profile</h1>
+    <h1>Edycja konta</h1>
 
     <%= form_for(resource, :as => resource_name, 
     :url => registration_path(resource_name), 
@@ -10,7 +10,7 @@
       <%= devise_error_messages! %>
 
       <div class="form-group">
-        <%= f.label :email %>
+        <%= f.label :email, "E-mail" %>
         <div class="row">
           <div class="col-sm-6">      
             <%= f.email_field :email, :autofocus => true, class: "form-control" %>  
@@ -27,7 +27,7 @@
       <% end %>
 
       <div class="form-group">
-            <%= f.label :password %> <i><small>(leave blank if you don't want to change it)</small></i>
+            <%= f.label :password, "Hasło" %> <i><small>(pozostaw puste jeśli nie chcesz zmieniać)</small></i>
         <div class="row">
           <div class="col-sm-6">
             <%= f.password_field :password, :autocomplete => "off", class: "form-control" %>
@@ -36,7 +36,7 @@
       </div>
 
       <div class="form-group">
-            <%= f.label :password_confirmation %>
+            <%= f.label :password_confirmation, "Potwierdzenie hasła" %>
         <div class="row">
           <div class="col-sm-6">
             <%= f.password_field :password_confirmation, class: "form-control" %>
@@ -45,7 +45,7 @@
       </div>
 
       <div class="form-group">
-            <%= f.label :current_password %> <i><small>(we need your current password to confirm your changes)</small></i>
+            <%= f.label :current_password, "Obecne hasło" %> <i><small>(musisz podać obecne hasło aby potwierdzić zmiany)</small></i>
         <div class="row">
           <div class="col-sm-6">
             <%= f.password_field :current_password, class: "form-control" %>
@@ -55,7 +55,7 @@
 
       <div class="row">
         <div class="col-sm-6">
-          <%= f.submit "Update", class: "btn btn-primary" %> - <%= link_to "Cancel", inside_path %>
+          <%= f.submit "Aktualizuj", class: "btn btn-success" %> - <%= link_to "Anuluj", inside_path %>
         </div>
       </div>    
  

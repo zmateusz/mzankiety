@@ -14,7 +14,7 @@
   <%= form_for :vote do |f| %>
     <% @poll.answers.each do |answer| %>
       <%= radio_button_tag(:vote, answer.id) %>
-      <%= label_tag(answer.option, answer.option) %><br>
+      <%= label_tag("vote_#{answer.id}", answer.option) %><br>
       <% end %>
     <%= f.submit "Głosuj", class: 'btn btn-primary'%>
     <% end %>

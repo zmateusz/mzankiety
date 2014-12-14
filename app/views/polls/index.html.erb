@@ -1,15 +1,16 @@
-<h1>Listing polls</h1>
-<%= button_to 'New Poll', new_poll_path, method: :get, class:"btn btn-success" %>
+<% title("Sondy") %>
+<h2>Sondy</h2>
+
+<p><%= link_to 'Nowa sonda', new_poll_path, class:"btn btn-success" %></p>
 
 <table class="table">
   <thead>
     <tr>
       <th class="col-md-1">id</th>
-      <th class="col-md-2">Name</th>
-      <th class="col-md-1">Type</th>
-      <th class="col-md-2">Author</th>
-      <th class="col-md-2">Date</th>
-      <th class="col-md-2">Survey</th>
+      <th class="col-md-2">Nazwa</th>
+      <th class="col-md-1">Typ</th>
+      <th class="col-md-2">Autor</th>
+      <th class="col-md-2">Data</th>
       <th class="col-md-1"></th>
       <th class="col-md-1"></th>
       <th class="col-md-1"></th>
@@ -26,12 +27,11 @@
         <td><%= poll.typ %></td>
         <td><%= poll.author %></td>
         <td><%= poll.created_at.strftime("%R @ %d-%m-%Y") %></td>
-        <td><%= if poll.survey then poll.survey.id end %></td>
-        <td><%= button_to 'Show', poll, method: 'get', class:"btn btn-primary"%></td>
-        <td><%= button_to 'Edit', edit_poll_path(poll), method: 'get', class:"btn btn-info" %></td>
-        <td><%= button_to 'Destroy', poll, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-danger" %></td>
-        <td><%= button_to 'Vote', vote_poll_path(poll), method: 'get', class:"btn btn-success"%></td>
-        <td><%= button_to 'Results', result_poll_path(poll), method: 'get', class:"btn btn-success"%></td>
+        <td><%= button_to 'Pokaż', poll, method: 'get', class:"btn btn-primary"%></td>
+        <td><%= button_to 'Edytuj', edit_poll_path(poll), method: 'get', class:"btn btn-info" %></td>
+        <td><%= button_to 'Usuń', poll, method: :delete, data: { confirm: 'Na pewno?' }, class:"btn btn-danger" %></td>
+        <td><%= button_to 'Głosuj', vote_poll_path(poll), method: 'get', class:"btn btn-success"%></td>
+        <td><%= button_to 'Wyniki', result_poll_path(poll), method: 'get', class:"btn btn-success"%></td>
       </tr>
     <% end %>
   </tbody>

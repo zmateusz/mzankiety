@@ -1,42 +1,49 @@
+<div class="row">
+<div class="col-md-2"></div>
+
+<div class="col-md-10">
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>Name:</strong>
-  <%= @survey.name %>
+  <h2>Ankieta: <%= @survey.name %></h2>
+  <%= link_to 'Edytuj', edit_survey_path(@survey) %> |
+  <%= link_to 'Powrót', surveys_path %>
 </p>
 
 <p>
-  <strong>Descr:</strong>
-  <%= @survey.descr %>
+  <strong>Opis:</strong> <%= @survey.descr %>
 </p>
 
 <p>
-  <strong>Author:</strong>
-  <%= @survey.author %>
+  <strong>Autor:</strong> <%= @survey.author %>
 </p>
 
-<p><h3>Questions</h3>
+<p><h3>Pytania</h3>
+<% if @survey.polls.empty? -%>
+  <p>Brak pytań. Dodaj jedno poniżej:</p>
+<% else %>
 <ul>
 <% @survey.polls.each do |poll| %>
   <li>
     <%= poll.name %>
   </li>
-<% end %>
-</ul></p>
+<% end  %>
+</ul><% end %>
+</p>
 
-<h3>Add a question:</h3>
+<h3>Dodaj pytanie:</h3>
 <%= form_for([@survey, @survey.polls.build]) do |f| %>
   <div class="form-group"> 
   <div class="field" style="width:80%">
-    <%= f.label :name %><br>
+    <%= f.label :name, "Nazwa" %><br>
     <%= f.text_field :name , class: "form-control", :value => Faker::Company.catch_phrase %>
   </div>
   <div class="field" style="width:80%">
-    <%= f.label :opis %><br>
+    <%= f.label :descr, "Opis" %><br>
     <%= f.text_area :descr , class: "form-control", :value => Faker::Lorem.sentence%>
   </div>
   <div class="field" style="width:30%">
-    <%= f.label 'Type' %><br>
+    <%= f.label 'Typ' %><br>
     <select multiple class="form-control" name="poll[typ]" id="poll_typ">
     <option value="Radio">Radio</option>
     <option value="Checkbox">Checkbox</option>
@@ -46,10 +53,13 @@
   <%= hidden_field_tag(:survey_id, @survey.id) %>
   </div>
   <div class="actions">
-    <%= f.submit "Wyslij", class: "btn btn-primary"%>
+    <%= f.submit "Dodaj", class: "btn btn-success"%>
   </div>
 <% end %>
 
+<br>
 
-<%= link_to 'Edit', edit_survey_path(@survey) %> |
-<%= link_to 'Back', surveys_path %>
+</div>
+
+<div class="col-md-2"></div>
+</div>

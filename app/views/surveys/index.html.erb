@@ -1,13 +1,13 @@
-<h1>Listing surveys</h1>
+<h2>Ankiety</h2>
 
-<%= link_to 'New Survey', new_survey_path %>
+<p><%= link_to 'Nowa ankieta', new_survey_path, class:"btn btn-success" %></p>
 
 <table class="table">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Descr</th>
-      <th>Author</th>
+      <th>Nazwa</th>
+      <th>Opis</th>
+      <th>Autor</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -18,10 +18,10 @@
         <td><%= survey.name %></td>
         <td><%= survey.descr %></td>
         <td><%= survey.author %></td>
-        <td><%= link_to 'Show', survey %></td>
-        <td><%= link_to 'Edit', edit_survey_path(survey) %></td>
-        <td><%= link_to 'Destroy', survey, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <td><%= link_to 'Vote', vote_poll_path(survey.polls.first), method: 'get', class:"btn btn-success" if survey.polls.present?%></td>
+        <td><%= link_to 'Pokaż', survey %></td>
+        <td><%= link_to 'Edytuj', edit_survey_path(survey) %></td>
+        <td><%= link_to 'Usuń', survey, method: :delete, data: { confirm: 'Na pewno?' } %></td>
+        <td><%= link_to 'Wypełnij', vote_poll_path(survey.polls.first), method: 'get', class:"btn btn-success" if survey.polls.present?%></td>
       </tr>
     <% end %>
   </tbody>

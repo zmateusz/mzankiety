@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm-4 "></div>
   <div class="col-sm-8 ">
-    <h1>Resend confirmation instructions</h1>
+    <h2>Wyślij instrukcje ponownie</h2>
 
     <%= form_for(resource, :as => resource_name, 
     :url => confirmation_path(resource_name), 
@@ -10,7 +10,7 @@
       <%= devise_error_messages! %>
 
       <div class="form-group">
-        <%= f.label :username %>
+        <%= f.label :username, "Użytkownik" %>
         <div class="row">
           <div class="col-sm-6">      
             <%= f.text_field :username, :autofocus => true, class: "form-control" %>  
@@ -20,7 +20,7 @@
   
       <div class="row">
         <div class="col-sm-6">
-          <%= f.submit "Resend confirmation instructions", class: "btn btn-primary" %>
+          <%= f.submit "Wyślij instrukcje ponownie", class: "btn btn-success" %>
         </div>
       </div>    
 
