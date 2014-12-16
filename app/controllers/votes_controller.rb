@@ -1,7 +1,8 @@
 class VotesController < ApplicationController
+  # before_action :is_admin, only: [:index]
 
   def index
-    @votes = Vote.order(created_at: :desc)    
+    @votes = Vote.order(created_at: :desc)
   end
 
   def create
@@ -37,6 +38,7 @@ class VotesController < ApplicationController
       @po = Poll.where('id > ?', params[:poll_id]).first
       if @po == nil 
         redirect_to votes_path
+        session[:prog] = nil
       else
         redirect_to vote_poll_path(@po)
       end
@@ -57,6 +59,8 @@ class VotesController < ApplicationController
 
   def destroy
     @vote = Vote.find(params[:id]) 
+    @vote.answer.counter = @vote.answer.counter - 1
+    @vote.answer.save 
     @vote.destroy
     #redirect_to votes_path
     respond_to do |format|
@@ -66,6 +70,10 @@ class VotesController < ApplicationController
   end
 
   private
+  def is_admin
+    redirect_to '/' if current_user == nil || !current_user.admin?
+  end
+
   def vote_params
     params.require(:vote).permit(:poll_id)
   end

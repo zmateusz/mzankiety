@@ -1,0 +1,68 @@
+<div role="tabpanel">
+  <!-- Nav tabs nav-stacked, nav-pills or nav-tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Statystyki</a></li>
+    <li role="presentation"><a href="#charts" aria-controls="charts" role="tab" data-toggle="tab">Wykresy</a></li>
+    <li role="presentation"><a href="#votes" aria-controls="votes" role="tab" data-toggle="tab">Głosy</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="stats">
+      <p>
+      <% @poll.answers.each do |answer| %>
+        <%= answer.option %> :
+        <%= answer.counter %>
+        <% @p = (answer.counter.to_f/@n*100).round(1) %>
+        ( <%= @p %>% )
+        <div class="progress">
+        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<%= @p %>%;">
+        <span class="sr-only">60% Complete</span>
+        </div>
+        </div>
+        <br>
+        <% end %>
+      </p>
+      <p>głosów: <%= @n %></p>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="charts">
+      <%= pie_chart @ans.group(:option).sum(:counter) %>
+      <%= column_chart @ans.group(:option).sum(:counter), colors: ["#999"] %>
+      <%= bar_chart @ans.group(:option).sum(:counter) %>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="votes">
+      <table class="table" style="width:500px">
+        <thead>
+          <tr>
+            <th class="col-md-2">author</th>
+            <th class="col-md-1">time</th>
+            <th class="col-md-2">answer id</th>
+            <th class="col-md-2">poll id</th>
+            <th class="col-md-1">answer</th>
+            <th class="col-md-1">poll</th>
+            <th class="col-md-1">custom</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @poll.votes.each do |vote| %>
+            <tr>
+              <td><%= vote.author %></td>
+              <td><%= vote.created_at %></td>
+              <td><%= vote.answer_id %></td>
+              <td><%= vote.poll_id %></td>
+              <td><%= if vote.answer then vote.answer.option end%></td>
+              <!-- <td><%= if vote.answer then vote.answer.poll.name end %></td> -->
+              <td><%= @poll = Poll.find(vote.poll_id); @poll.name %></td>
+              <td><%= vote.custom %></td>
+              <td><%= link_to 'Destroy', vote, method: :delete, :remote=>true, :class=>'delete_item', data: { confirm: 'Are you sure?' }%>
+                <a href class="delete_item2" id="<%= vote.id %>" data-remote="true">ajax</a></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>

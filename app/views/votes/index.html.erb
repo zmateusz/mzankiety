@@ -13,6 +13,7 @@
       <th class="col-md-1">answer</th>
       <th class="col-md-1">poll</th>
       <th class="col-md-1">custom</th>
+      <th class="col-md-1">counter</th>
     </tr>
   </thead>
 
@@ -27,6 +28,7 @@
         <!-- <td><%= if vote.answer then vote.answer.poll.name end %></td> -->
         <td><%= @poll = Poll.find(vote.poll_id); @poll.name %></td>
         <td><%= vote.custom %></td>
+        <td><%= vote.answer.counter if vote.answer %></td>
         <td><%= link_to 'Destroy', vote, method: :delete, :remote=>true, :class=>'delete_item', data: { confirm: 'Are you sure?' }%>
           <a href class="delete_item2" id="<%= vote.id %>" data-remote="true">ajax</a></td>
       </tr>

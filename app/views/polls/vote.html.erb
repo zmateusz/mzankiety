@@ -1,38 +1,46 @@
 <div class="row">
-  <div class="col-md-4">
+  <div class="col-md-3">
     <!-- <br><img src="http://placekitten.com/g/251/400"> -->
   </div>
-  <div class="col-md-4">
+  <div class="col-md-6">
+<br><br>
+<div class="well">
+<h3><%= @poll.name %></h3>
 
-<h3>Voting</h3>
-
-<p><%= @poll.name %><br>
   <%= @poll.descr %>
-
   <% case @poll.typ %>
   <% when "Radio"%>
-  <%= form_for :vote do |f| %>
+  <div class="col-md-offset-2"><br>
+  <%= form_for :vote do |f| %><h4>
     <% @poll.answers.each do |answer| %>
       <%= radio_button_tag(:vote, answer.id) %>
       <%= label_tag("vote_#{answer.id}", answer.option) %><br>
-      <% end %>
-    <%= f.submit "Głosuj", class: 'btn btn-primary'%>
+      <% end %><br>
+    <%= f.submit "Głosuj", class: 'btn btn-primary'%></h4>
     <% end %>
   <% when "Checkbox"%>
+  <div class="col-md-offset-2"><br>
     <%= simple_form_for :vote do |f| %>
-    <%= f.input :choices, as: :check_boxes, collection: @ans, label: false%>
-    <%= f.button :submit, class: 'btn btn-primary'%>
+    <%= f.input :choices, as: :check_boxes, collection: @ans, label: false%><br>
+    <%= f.button :submit, "Głosuj", class: 'btn btn-primary'%>
     <% end %>
   <% when "Text"%>
+  <br><br>
     <%= form_for :vote do |f| %>  
       <p><%= text_field_tag(:vote) %></p>
     <%= f.submit "Głosuj", class: 'btn btn-primary'%>
     <% end %>
-
   <% end %>
+  <%= @progress %><div class="progress" style="width:25%;">
+        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<%= @pro %>%;">
+        <span class="sr-only">60% Complete</span>
+        </div>
+        </div>
+  </div>
+</div>
 
 <%= paginate @polls %>
   </div>
-  <div class="col-md-4"></div>
+  <div class="col-md-3"></div>
 </div>
 

@@ -1,34 +1,11 @@
 <%= javascript_include_tag "http://www.google.com/jsapi" %>
 <%= javascript_include_tag "application", "chartkick" %>
-
 <div class="row">
-  <div class="col-md-6 col-md-offset-3">
 
-    <p><%= @poll.name %></p>
-
-<p>
-<% @poll.answers.each do |answer| %>
-  <%= answer.option %> :
-  <%= answer.counter %>
-  <% @p = (answer.counter.to_f/@n*100).round(1) %>
-  ( <%= @p %>% )
-<div class="progress">
-  <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<%= @p %>%;">
-    <span class="sr-only">60% Complete</span>
+  <div class="col-md-8 col-md-offset-2">
+    <h3>Wyniki dla sondy:</h3>
+    <h4><%= @poll.name %></h4>
+    <%= render "layouts/#{@poll.typ.downcase}" %>
   </div>
+
 </div>
-
-  <br>
-<% end %>
-</p>
-
-<p>głosów: <%= @n %></p>
-
-  </div>
-</div>
-
-
-
-<%= pie_chart @ans.group(:option).sum(:counter) %>
-<%= column_chart @ans.group(:option).sum(:counter), colors: ["#999"] %>
-<%= bar_chart @ans.group(:option).sum(:counter) %>

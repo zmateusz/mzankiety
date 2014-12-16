@@ -32,13 +32,32 @@ class PollsController < ApplicationController
     @ans = [] 
     @poll.answers.each do |answer| 
       @ans.push(answer.option)
-    end 
+    end
+    if @poll.survey_id != nil
+      session[:prog] = 1 if session[:prog] == nil
+      n = Survey.find(@poll.survey_id).polls.count
+      @progress = "#{session[:prog]}/#{n}"
+      @pro = (session[:prog].to_f/n*100).round(1)
+      session[:prog] += 1
+    end
+    render layout: 'voting' 
   end
 
   def result
     @poll = Poll.find(params[:id])
-    @ans = @poll.answers
-    @n = @poll.answers.sum(:counter).to_i
+    case @poll.typ
+    when "Radio"
+      @ans = @poll.answers
+      @n = @poll.answers.sum(:counter).to_i
+    when "Checkbox"
+      @votes = Vote.where(:poll_id => @poll.id)
+      @count = @votes.count
+    when "Text"
+      @votes = Vote.where(:poll_id => @poll.id)
+      @count = @votes.count
+    else
+      puts "no type"
+    end
   end
 
   # POST /polls

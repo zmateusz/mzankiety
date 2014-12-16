@@ -1,0 +1,52 @@
+<div role="tabpanel">
+  <!-- Nav tabs nav-stacked, nav-pills or nav-tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Statystyki</a></li>
+    <li role="presentation"><a href="#charts" aria-controls="charts" role="tab" data-toggle="tab">Wykresy</a></li>
+    <li role="presentation"><a href="#votes" aria-controls="votes" role="tab" data-toggle="tab">Głosy</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="stats">
+      <p>głosów: <%= @count %></p>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="charts">
+
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="votes">
+      <table class="table" style="width:500px">
+        <thead>
+          <tr>
+            <th class="col-md-2">author</th>
+            <th class="col-md-1">time</th>
+            <th class="col-md-2">answer id</th>
+            <th class="col-md-2">poll id</th>
+            <th class="col-md-1">answer</th>
+            <th class="col-md-1">poll</th>
+            <th class="col-md-1">custom</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @votes.each do |vote| %>
+            <tr>
+              <td><%= vote.author %></td>
+              <td><%= vote.created_at %></td>
+              <td><%= vote.answer_id %></td>
+              <td><%= vote.poll_id %></td>
+              <td><%= if vote.answer then vote.answer.option end%></td>
+              <!-- <td><%= if vote.answer then vote.answer.poll.name end %></td> -->
+              <td><%= @poll = Poll.find(vote.poll_id); @poll.name %></td>
+              <td><%= vote.custom %></td>
+              <td><%= link_to 'Destroy', vote, method: :delete, :remote=>true, :class=>'delete_item', data: { confirm: 'Are you sure?' }%>
+                <a href class="delete_item2" id="<%= vote.id %>" data-remote="true">ajax</a></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
