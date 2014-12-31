@@ -1,3 +1,75 @@
-<h1>Protected Page</h1>
-<p>This page is only visible to signed in users. Edit it at: <em>views/pages/inside</em></p>
-<p>You can change the page users see after successfully signing in within the method <em>after_sign_in_path_for</em> inside <strong>application_controller.rb</strong></p>
+<div class="row">
+
+  <div class="col-md-10 col-md-offset-1">
+    <h2>Panel użytkownika
+    <%= link_to 'Nowa ankieta', new_survey_path, class:"btn btn-success" %>
+    <%= link_to 'Nowa sonda', new_poll_path, class:"btn btn-success" %></h2>
+
+    <div class="well">
+      <strong>Ankiety (<%= @surveys.count %>)</strong>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th class="col-md-3">Nazwa</th>
+      <th class="col-md-1">Data</th>
+      <th class="col-md-1">Głosy</th>
+      <th class="col-md-1"></th>
+      <th class="col-md-1"></th>
+      <th class="col-md-1"></th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @surveys.each do |survey| %>
+      <tr>
+        <td><%= link_to survey.name, survey %></td>
+        <td><%= survey.created_at.strftime("%R @ %d-%m-%Y") %></td>
+        <td><%= Vote.where(:poll_id => survey.id).count %></td>
+        <td><%= button_to 'Edytuj', edit_survey_path(survey), method: 'get', class:"btn btn-info" %></td>
+        <td><%= button_to 'Głosuj', vote_survey_path(survey), method: 'get', class:"btn btn-success"%></td>
+        <td><%= button_to 'Usuń', survey, method: :delete, data: { confirm: 'Na pewno?' }, class:"btn btn-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>      
+
+    </div>
+    <div class="well">
+      <strong>Sondy (<%= @polls.count %>)</strong>
+      
+<table class="table">
+  <thead>
+    <tr>
+      <th class="col-md-3">Nazwa</th>
+      <th class="col-md-1">Typ</th>
+      <th class="col-md-1">Data</th>
+      <th class="col-md-1">Głosy</th>
+      <th class="col-md-1"></th>
+      <th class="col-md-1"></th>
+      <th class="col-md-1"></th>
+      <th class="col-md-1"></th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <% @polls.each do |poll| %>
+      <tr>
+        <td><%= link_to poll.name, poll %></td>
+        <td><%= poll.typ %></td>
+        <td><%= poll.created_at.strftime("%R @ %d-%m-%Y") %></td>
+        <td><%= Vote.where(:poll_id => poll.id).count %></td>
+        <td><%= button_to 'Edytuj', edit_poll_path(poll), method: 'get', class:"btn btn-info" %></td>
+        <td><%= button_to 'Głosuj', vote_poll_path(poll), method: 'get', class:"btn btn-success"%></td>
+        <td><%= button_to 'Wyniki', result_poll_path(poll), method: 'get', class:"btn btn-success"%></td>
+        <td><%= button_to 'Usuń', poll, method: :delete, data: { confirm: 'Na pewno?' }, class:"btn btn-danger" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+    </div>
+  </div>
+
+</div>
+

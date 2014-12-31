@@ -13,7 +13,11 @@ class AnswersController < ApplicationController
   def destroy
     @answer = Answer.find(params[:id]) 
     @answer.destroy
-    redirect_to answers_path
+    if params[:poll] != nil
+      redirect_to poll_path(params[:poll])
+    else
+      redirect_to answers_path
+    end
   end
 
   def wipe

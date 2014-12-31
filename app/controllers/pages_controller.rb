@@ -10,6 +10,8 @@ class PagesController < ApplicationController
   end
   
   def inside
+    @surveys = Survey.order(created_at: :desc).where(:author => current_user.username)
+    @polls = Poll.order(created_at: :desc).where(:author => current_user.username)
   end 
     
 end

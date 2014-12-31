@@ -8,6 +8,7 @@ Mzankiety::Application.routes.draw do
   resources :polls do
     get 'vote', on: :member
     get 'result', on: :member
+    get 'toggle', on: :member
   	resources :answers
   end
 

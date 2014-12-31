@@ -5,7 +5,7 @@ class PollsController < ApplicationController
   # GET /polls.json
   def index
     #@polls = Poll.order(:id).page params[:page]
-    @polls = Poll.order(created_at: :desc).where(:survey_id => nil)
+    @polls = Poll.order(created_at: :desc).where(:survey_id => nil) #:shared => true
   end
 
   # GET /polls/1
@@ -73,7 +73,13 @@ class PollsController < ApplicationController
     end
     respond_to do |format|
       if @poll.save
-        format.html { redirect_to @poll, notice: 'Poll was successfully created.' }
+        format.html { 
+          if params[:survey_id] != nil
+            redirect_to survey_path(params[:survey_id]), notice: 'Poll was successfully created.'
+          else
+            redirect_to @poll, notice: 'Poll was successfully created.' 
+          end
+        }
         format.json { render :show, status: :created, location: @poll }
       else
         format.html { render :new }
@@ -104,6 +110,18 @@ class PollsController < ApplicationController
       format.html { redirect_to polls_url, notice: 'Poll was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  def toggle
+    @poll = Poll.find(params[:id])
+    if @poll.shared == true 
+      @poll.shared = false
+      @poll.save
+    else
+      @poll.shared = true
+      @poll.save
+    end
+    redirect_to poll_path(@poll)
   end
 
   private

@@ -2,44 +2,52 @@
 <div class="col-md-2"></div>
 
 <div class="col-md-10">
-<p id="notice"><%= notice %></p>
+<p id="notice"></p>
 
 <p>
-	<strong>Name:</strong>
-	<%= @poll.name %><br>
+  <h2>Sonda: <%= @poll.name %></h2>
+  <%= link_to 'Edytuj', edit_poll_path(@poll) %> |
+  <%= link_to 'Powrót', polls_path %>
+</p>
+<p>
+  <strong>Opis:</strong> <%= raw @poll.descr %>
+</p>
+<p>
 	<strong>Typ:</strong>
-	<%= @poll.typ %><br>
-	<strong>Author:</strong>
-	<%= @poll.author %><br>
-	<strong>Date:</strong>
-	<%= @poll.created_at %><br>
-		<strong>Descr:</strong>
-	<%= @poll.descr %><br>
+	<%= @poll.typ %>
+	<strong>Autor:</strong>
+	<%= @poll.author %>
+	<strong>Data:</strong>
+	<%= @poll.created_at.strftime("%R @ %d-%m-%Y") %>
 </p>
 
-<p><h3>Answers</h3>
+<p><b>Status:</b> <%= raw status(@poll) %></p>
+
+<p><h3>Odpowiedzi</h3>
+<% if @poll.answers.empty? -%>
+  <p>Brak odpowiedzi. Dodaj jedną poniżej:</p>
+<% else %>
 <ul>
 <% @poll.answers.each do |answer| %>
 	<li>
 		<%= answer.option %>
 		<%= answer.counter %>
+		<%= link_to 'Usuń', answer_path(:id => answer.id, :poll => @poll.id), method: :delete, data: { confirm: 'Na pewno?' }  %>
 	</li>
 <% end %>
-</ul></p>
+</ul><% end %></p>
 
-<h3>Add an answer:</h3>
+<h4>Nowa odpowiedź:</h4>
 <%= form_for([@poll, @poll.answers.build]) do |f| %>
 	<p>
-		<%= f.label :opcja %><br>
+		<%# f.label :opcja %>
 		<%= f.text_field :option, :value => Faker::Name.first_name  %>
 	</p>
 	<p>
-		<%= f.submit %>
+		<%= f.submit "Dodaj odpowiedź", class: "btn btn-success" %>
 	</p>
 <% end %>
 
-<%= link_to 'Edit', edit_poll_path(@poll) %> |
-<%= link_to 'Back', polls_path %>
 </div>
 
 <div class="col-md-2"></div>
