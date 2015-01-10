@@ -82,7 +82,13 @@ class PollsController < ApplicationController
         }
         format.json { render :show, status: :created, location: @poll }
       else
-        format.html { render :new }
+        format.html { 
+          if params[:survey_id] != nil
+            redirect_to detail_survey_path(params[:survey_id]), notice: 'Nie udalo sie zapisac pytania.'
+          else
+            render :new
+          end
+        }
         format.json { render json: @poll.errors, status: :unprocessable_entity }
       end
     end
@@ -107,12 +113,12 @@ class PollsController < ApplicationController
   def destroy
     @poll.destroy
     respond_to do |format|
-      format.html { redirect_to polls_url, notice: 'Poll was successfully destroyed.' }
+      format.html { redirect_to :back, notice: 'Poll was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
-  def toggle
+  def togglep
     @poll = Poll.find(params[:id])
     if @poll.shared == true 
       @poll.shared = false
@@ -122,6 +128,10 @@ class PollsController < ApplicationController
       @poll.save
     end
     redirect_to poll_path(@poll)
+  end
+
+  def detail
+    @poll = Poll.find(params[:id])
   end
 
   private

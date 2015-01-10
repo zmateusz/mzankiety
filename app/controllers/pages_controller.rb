@@ -7,6 +7,8 @@ class PagesController < ApplicationController
     @polls = Poll.count
     @votes = Vote.count
     @users = User.count
+    @survey = Survey.last    
+    @poll = Poll.where(:survey_id => nil).last
   end
   
   def inside

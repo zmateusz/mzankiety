@@ -1,63 +1,30 @@
 <div class="row">
 <div class="col-md-2"></div>
 
-<div class="col-md-10">
+<div class="col-md-8">
 <p id="notice"></p>
 
+<div class="well">
+<h3>Ankieta: <%= @survey.name %></h3>
+<hr>
 <p>
-  <h2>Ankieta: <%= @survey.name %></h2>
-  <%= link_to 'Edytuj', edit_survey_path(@survey) %> |
-  <%= link_to 'Powrót', surveys_path %>
+  <strong>Opis:</strong> <%= raw @survey.descr %>
 </p>
+<dl class="dl-horizontal">
+  <dt>Autor:</dt>
+  <dd><%= @survey.author %></dd>
+  <dt>Data utworzenia:</dt>
+  <dd><%= dateformat(@survey.created_at) %></dd>
+  <dt>Data zakończenia:</dt>
+  <dd><%= @survey.ends_at ? dateformat(@survey.ends_at) : "brak" %></dd>
+</dl>
 
-<p>
-  <strong>Opis:</strong> <%= @survey.descr %>
+<p class="text-center">
+<%= link_to 'Wypełnij', vote_poll_path(@survey.polls.first), method: 'get', class:"btn btn-success" if @survey.polls.present?%>
 </p>
-
-<p>
-  <strong>Autor:</strong> <%= @survey.author %>
-</p>
-
-<p><h3>Pytania</h3>
-<% if @survey.polls.empty? -%>
-  <p>Brak pytań. Dodaj jedno poniżej:</p>
-<% else %>
-<ul>
-<% @survey.polls.each do |poll| %>
-  <li>
-    <%= poll.name %>
-  </li>
-<% end  %>
-</ul><% end %>
-</p>
-
-<h3>Dodaj pytanie:</h3>
-<%= form_for([@survey, @survey.polls.build]) do |f| %>
-  <div class="form-group"> 
-  <div class="field" style="width:80%">
-    <%= f.label :name, "Nazwa" %><br>
-    <%= f.text_field :name , class: "form-control", :value => Faker::Company.catch_phrase %>
-  </div>
-  <div class="field" style="width:80%">
-    <%= f.label :descr, "Opis" %><br>
-    <%= f.text_area :descr , class: "form-control", :value => Faker::Lorem.sentence%>
-  </div>
-  <div class="field" style="width:30%">
-    <%= f.label 'Typ' %><br>
-    <select multiple class="form-control" name="poll[typ]" id="poll_typ">
-    <option value="Radio">Radio</option>
-    <option value="Checkbox">Checkbox</option>
-    <option value="Text">Text</option>
-    </select>
-  </div>
-  <%= hidden_field_tag(:survey_id, @survey.id) %>
-  </div>
-  <div class="actions">
-    <%= f.submit "Dodaj", class: "btn btn-success"%>
-  </div>
-<% end %>
-
-<br>
+<hr>
+<p class="text-center"><%= link_to 'Powrót', surveys_path %> | <%= link_to "Pokaż szczegóły", detail_survey_path(@survey) %></p>
+</div>
 
 </div>
 

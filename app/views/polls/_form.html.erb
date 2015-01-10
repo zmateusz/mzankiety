@@ -14,18 +14,18 @@
   <a class="btn btn-primary" id="aaa" onclick="getRandom();">Random name</a>
   
   <div class="form-group"> 
-  <div class="field" style="width:80%">
+  <div class="field" style="width:100%">
     <%= f.label :name, "Nazwa/Pytanie" %><br>
     <%= f.text_field :name , class: "form-control" %>
   </div>
-  <div class="field" style="width:80%">
+  <div class="field" style="width:100%">
     <%= f.label :descr, "Opis" %><br>
     <%= f.text_area :descr , class: "form-control"%>
   </div>
   <div class="field" style="width:30%">
     <%= f.label 'Typ' %><br>
     <select multiple class="form-control" name="poll[typ]" id="poll_typ">
-    <option value="Radio">Radio</option>
+    <option value="Radio" selected="selected">Radio</option>
     <option value="Checkbox">Checkbox</option>
     <option value="Text">Text</option>
     </select>

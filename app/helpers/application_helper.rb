@@ -4,4 +4,7 @@ module ApplicationHelper
       @title = "#{value} | mzankiety"      
     end
   end
+  def dateformat(date)
+    date.strftime("%d.%m.%Y - %R")
+  end
 end

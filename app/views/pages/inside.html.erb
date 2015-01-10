@@ -2,8 +2,8 @@
 
   <div class="col-md-10 col-md-offset-1">
     <h2>Panel użytkownika
-    <%= link_to 'Nowa ankieta', new_survey_path, class:"btn btn-success" %>
-    <%= link_to 'Nowa sonda', new_poll_path, class:"btn btn-success" %></h2>
+    <small><u><%= link_to 'Nowa ankieta', new_survey_path, class:"text-success" %></u> |
+    <u><%= link_to 'Nowa sonda', new_poll_path, class:"text-success" %></u></small></h2>
 
     <div class="well">
       <strong>Ankiety (<%= @surveys.count %>)</strong>
@@ -26,8 +26,8 @@
         <td><%= link_to survey.name, survey %></td>
         <td><%= survey.created_at.strftime("%R @ %d-%m-%Y") %></td>
         <td><%= Vote.where(:poll_id => survey.id).count %></td>
-        <td><%= button_to 'Edytuj', edit_survey_path(survey), method: 'get', class:"btn btn-info" %></td>
-        <td><%= button_to 'Głosuj', vote_survey_path(survey), method: 'get', class:"btn btn-success"%></td>
+        <td><%= link_to 'Edytuj', edit_survey_path(survey), method: 'get', class:"btn btn-info" %></td>
+        <td><%= link_to 'Głosuj', vote_survey_path(survey), method: 'get', class:"btn btn-success"%></td>
         <td><%= button_to 'Usuń', survey, method: :delete, data: { confirm: 'Na pewno?' }, class:"btn btn-danger" %></td>
       </tr>
     <% end %>
@@ -55,7 +55,7 @@
   <tbody>
     <% @polls.each do |poll| %>
       <tr>
-        <td><%= link_to poll.name, poll %></td>
+        <td><%= link_to poll.name, detail_poll_path(poll) %></td>
         <td><%= poll.typ %></td>
         <td><%= poll.created_at.strftime("%R @ %d-%m-%Y") %></td>
         <td><%= Vote.where(:poll_id => poll.id).count %></td>

@@ -21,3 +21,13 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      survey: # this is model name
+        name: "Nazwa"
+        descr: "Opis"
+      poll:
+        name: "Nazwa"
+  errors:
+    messages:
+      blank: ": pole nie może być puste."

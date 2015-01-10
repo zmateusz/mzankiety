@@ -1,12 +1,28 @@
 <% title("Strona główna") %>
 
-
 <div class="row">
   <div class="col-md-6 col-md-offset-1">
     <h1><i class="fa fa-home"></i> Strona główna </h1>
     <div class="well">
-      <%= link_to 'Nowa sonda', new_poll_path, :class => 'btn btn-success' %><br><br>
+      <p><b>Najnowsza ankieta:</b></p>
+      <% if @survey -%>
+        <p><%= link_to "#{@survey.name.slice(0,40)}...", @survey %><br>
+        <%= dateformat(@survey.created_at) %></p>
+      <% else %>
+        <p>Brak publicznych ankiet.</p>
+      <% end %>
       <%= link_to 'Nowa ankieta', new_survey_path, :class => 'btn btn-success' %>
+      <%= link_to 'Pokaż wszystkie', surveys_path, :class => 'btn btn-primary' %>
+      <hr>
+      <p><b>Najnowsza sonda:</b></p>
+      <% if @poll %>
+        <p><%= link_to "#{@poll.name.slice(0,40)}...", @poll %><br>
+        <%= dateformat(@poll.created_at) %></p>
+      <% else %>
+        <p>Brak publicznych sond.</p>
+      <% end %>
+      <%= link_to 'Nowa sonda', new_poll_path, :class => 'btn btn-success' %>
+      <%= link_to 'Pokaż wszystkie', polls_path, :class => 'btn btn-primary' %>
     </div>  
   </div>
 

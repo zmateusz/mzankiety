@@ -1,10 +1,10 @@
 module PollsHelper
 
-  def status(poll)
+  def status_poll(poll)
     if poll.shared == true
-      "Widoczna - #{link_to 'Ukryj', toggle_poll_path(@poll), method: 'get'}" 
+      "Widoczna - #{link_to 'Ukryj', togglep_poll_path(@poll), method: 'get'}" 
     else
-      "Ukryta - #{link_to 'Udostepnij', toggle_poll_path(@poll), method: 'get'}"
+      "Ukryta - #{link_to 'Udostepnij', togglep_poll_path(@poll), method: 'get'}"
     end
   end
 

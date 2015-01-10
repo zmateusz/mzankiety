@@ -4,7 +4,7 @@ class SurveysController < ApplicationController
   # GET /surveys
   # GET /surveys.json
   def index
-    @surveys = Survey.all
+    @surveys = Survey.order(created_at: :desc) ## where(:shared => true)
   end
 
   # GET /surveys/1
@@ -32,7 +32,7 @@ class SurveysController < ApplicationController
     end
     respond_to do |format|
       if @survey.save
-        format.html { redirect_to @survey, notice: 'Survey was successfully created.' }
+        format.html { redirect_to detail_survey_path(@survey), notice: 'Ankieta zostala pomyslnie utworzona.' }
         format.json { render :show, status: :created, location: @survey }
       else
         format.html { render :new }
@@ -46,7 +46,7 @@ class SurveysController < ApplicationController
   def update
     respond_to do |format|
       if @survey.update(survey_params)
-        format.html { redirect_to @survey, notice: 'Survey was successfully updated.' }
+        format.html { redirect_to @survey, notice: 'Ankieta zostala pomyslnie zaktualizowana.' }
         format.json { render :show, status: :ok, location: @survey }
       else
         format.html { render :edit }
@@ -60,9 +60,37 @@ class SurveysController < ApplicationController
   def destroy
     @survey.destroy
     respond_to do |format|
-      format.html { redirect_to surveys_url, notice: 'Survey was successfully destroyed.' }
+      format.html { redirect_to inside_url, notice: 'Ankieta zostala pomyslnie skasowana.' }
       format.json { head :no_content }
     end
+  end
+
+  def toggles
+    @survey = Survey.find(params[:id])
+    if @survey.shared == true 
+      @survey.shared = false
+      @survey.save
+    else
+      @survey.shared = true
+      @survey.save
+    end
+    redirect_to detail_survey_path(@survey)
+  end
+
+  def detail
+    @survey = Survey.find(params[:id])
+  end
+
+  def enddate
+    detail
+    end_date = params[:survey]
+    new_date = DateTime.new(end_date["ends_at(1i)"].to_i,
+                        end_date["ends_at(2i)"].to_i,
+                        end_date["ends_at(3i)"].to_i,
+                        end_date["ends_at(4i)"].to_i-1, #poprawka do strefy czasowej, inny sposob?
+                        end_date["ends_at(5i)"].to_i)
+    @survey.update_attribute(:ends_at, new_date)
+    redirect_to detail_survey_path(@survey)
   end
 
   private
