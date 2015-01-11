@@ -84,13 +84,21 @@ class SurveysController < ApplicationController
   def enddate
     detail
     end_date = params[:survey]
-    new_date = DateTime.new(end_date["ends_at(1i)"].to_i,
-                        end_date["ends_at(2i)"].to_i,
-                        end_date["ends_at(3i)"].to_i,
-                        end_date["ends_at(4i)"].to_i-1, #poprawka do strefy czasowej, inny sposob?
-                        end_date["ends_at(5i)"].to_i)
+    if @survey.ends_at.nil?
+      new_date = DateTime.new(end_date["created_at(1i)"].to_i,
+                          end_date["created_at(2i)"].to_i,
+                          end_date["created_at(3i)"].to_i,
+                          end_date["created_at(4i)"].to_i-1, #poprawka do strefy czasowej, inny sposob?
+                          end_date["created_at(5i)"].to_i)
+    else
+      new_date = DateTime.new(end_date["ends_at(1i)"].to_i,
+                          end_date["ends_at(2i)"].to_i,
+                          end_date["ends_at(3i)"].to_i,
+                          end_date["ends_at(4i)"].to_i-1,
+                          end_date["ends_at(5i)"].to_i)
+    end
     @survey.update_attribute(:ends_at, new_date)
-    redirect_to detail_survey_path(@survey)
+    redirect_to :back
   end
 
   private

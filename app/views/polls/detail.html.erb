@@ -1,11 +1,12 @@
 <div class="row">
-<div class="col-md-2"></div>
+<div class="col-md-1"></div>
 
-<div class="col-md-10">
+<div class="col-md-7">
 <p id="notice"></p>
 
 <p>
   <h3><%= if @poll.survey then "Pytanie:" else "Sonda:" end %> <%= @poll.name %></h3>
+  <strong>Data utworzenia:</strong> <%= dateformat(@poll.created_at) %> |
   <%= link_to 'Edytuj', edit_poll_path(@poll) %> |
   <%= link_to 'Powrót', polls_path %> |
   <%= link_to 'Powrót do ankiety', detail_survey_path(@poll.survey) if @poll.survey %>
@@ -13,18 +14,11 @@
 <p>
   <strong>Opis:</strong> <%= raw @poll.descr %>
 </p>
-<p>
   <strong>Typ:</strong>
-  <%= @poll.typ %>
-  <strong>Autor:</strong>
-  <%= @poll.author %>
-  <strong>Data:</strong>
-  <%= @poll.created_at.strftime("%R @ %d-%m-%Y") %>
-</p>
-
-<p><b>Status:</b> <%= raw status_poll(@poll) %></p>
-
-<p><h3>Odpowiedzi</h3>
+  <%= typeinfo(@poll.typ) %>
+<hr>
+<% if (@poll.typ != "Text") && (@poll.typ != "Info") -%>
+<h4>Odpowiedzi</h4>
 <% if @poll.answers.empty? -%>
   <p class="text-danger"><b>Brak odpowiedzi. Dodaj jedną poniżej:</b></p>
 <% else %>
@@ -36,20 +30,47 @@
     <%= link_to 'Usuń', answer_path(:id => answer.id, :poll => @poll.id), method: :delete, data: { confirm: 'Na pewno?' }  %>
   </li>
 <% end %>
-</ul><% end %></p>
+</ul>
+<% end %>
+
 
 <h4>Nowa odpowiedź:</h4>
 <%= form_for([@poll, @poll.answers.build]) do |f| %>
   <p>
     <%# f.label :opcja %>
-    <%= f.text_field :option, :value => Faker::Name.first_name  %>
+    <%= f.text_field :option, class: "form-control", style: "width:80%", :value => Faker::Name.first_name  %>
   </p>
   <p>
     <%= f.submit "Dodaj odpowiedź", class: "btn btn-success" %>
   </p>
 <% end %>
-
+<% end %>
 </div>
 
-<div class="col-md-2"></div>
+<div class="col-md-4">
+<% unless @poll.survey_id.present? %>
+  <h3>Ustawienia</h3>
+
+  <b>Data zakończenia:</b><br>
+  <% if @poll.ends_at.nil? %>
+    nie ustawiono
+    <%= form_for @poll, url: {action: "enddate"} do |f| %>
+    <%= f.date_select :created_at, :start_year => @poll.created_at.year %><br> 
+    <%= f.time_select :created_at, :ignore_date => true %>
+    <%= f.submit "Ustaw datę" %>
+    <% end %>
+  <% else %>
+    <%= dateformat(@poll.ends_at) %>
+    (<%= distance_of_time_in_words(@poll.ends_at, Time.now) %>)
+    <%= form_for @poll, url: {action: "enddate"} do |f| %>
+    <%= f.date_select :ends_at, :start_year => @poll.created_at.year%><br> 
+    <%= f.time_select :ends_at, :ignore_date => true %>
+    <%= f.submit "Ustaw datę" %>
+    <% end %>
+  <% end %>
+
+  <br><b>Status:</b> <%= raw status_poll(@poll) %>
+
+<% end %>
+</div>
 </div>

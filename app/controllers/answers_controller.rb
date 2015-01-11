@@ -7,14 +7,14 @@ class AnswersController < ApplicationController
   def create
     @poll = Poll.find(params[:poll_id])
     @answer = @poll.answers.create(answer_params)
-    redirect_to poll_path(@poll)
+    redirect_to :back
   end
 
   def destroy
     @answer = Answer.find(params[:id]) 
     @answer.destroy
     if params[:poll] != nil
-      redirect_to poll_path(params[:poll])
+      redirect_to :back
     else
       redirect_to answers_path
     end

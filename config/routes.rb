@@ -13,6 +13,7 @@ Mzankiety::Application.routes.draw do
     get 'result', on: :member
     get 'detail', on: :member
     get 'togglep', on: :member
+    patch 'enddate', on: :member
   	resources :answers
   end
 

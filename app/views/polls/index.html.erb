@@ -24,7 +24,7 @@
       <tr>
         <td><%= link_to poll.name, poll %></td>
         <td><%= dateformat(poll.created_at) %></td>
-        <td><%= poll.typ %></td>
+        <td><%= typeinfo(poll.typ) %></td>
         <td><%= poll.author %></td>
       </tr>
     <% end %>

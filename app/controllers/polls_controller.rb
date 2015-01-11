@@ -75,7 +75,7 @@ class PollsController < ApplicationController
       if @poll.save
         format.html { 
           if params[:survey_id] != nil
-            redirect_to survey_path(params[:survey_id]), notice: 'Poll was successfully created.'
+            redirect_to detail_survey_path(params[:survey_id]), notice: 'Poll was successfully created.'
           else
             redirect_to @poll, notice: 'Poll was successfully created.' 
           end
@@ -127,11 +127,31 @@ class PollsController < ApplicationController
       @poll.shared = true
       @poll.save
     end
-    redirect_to poll_path(@poll)
+    redirect_to :back
   end
 
   def detail
     @poll = Poll.find(params[:id])
+  end
+
+  def enddate
+    detail
+    end_date = params[:poll]
+    if @poll.ends_at.nil?
+      new_date = DateTime.new(end_date["created_at(1i)"].to_i,
+                          end_date["created_at(2i)"].to_i,
+                          end_date["created_at(3i)"].to_i,
+                          end_date["created_at(4i)"].to_i-1, #poprawka do strefy czasowej, inny sposob?
+                          end_date["created_at(5i)"].to_i)
+    else
+      new_date = DateTime.new(end_date["ends_at(1i)"].to_i,
+                          end_date["ends_at(2i)"].to_i,
+                          end_date["ends_at(3i)"].to_i,
+                          end_date["ends_at(4i)"].to_i-1,
+                          end_date["ends_at(5i)"].to_i)
+    end
+    @poll.update_attribute(:ends_at, new_date)
+    redirect_to :back
   end
 
   private

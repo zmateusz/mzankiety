@@ -27,34 +27,26 @@ class VotesController < ApplicationController
       @boxes[:choices].each {|x| @text += x + ","}
       @vote = Vote.new("author" => user, "poll_id" => params[:poll_id], "custom" => @text)
       @vote.save
-    else
-      @vote = Vote.new("author" => user, "poll_id" => params[:poll_id], "custom" => params[:vote])
+    elsif @poll.typ == "Text"
+      @vote = Vote.new("author" => user, "poll_id" => params[:poll_id], "custom" => params[:vote][:vote])
       @vote.save
     end
 
     if @poll.survey_id == nil
       redirect_to result_poll_path(params[:poll_id])
     else
-      @po = Poll.where('id > ?', params[:poll_id]).first
-      if @po == nil 
+      @next = Poll.where('id > ?', params[:poll_id]).first
+      if @next == nil 
+        redirect_to votes_path
+        session[:prog] = nil
+      elsif @poll.survey_id != @next.survey_id
         redirect_to votes_path
         session[:prog] = nil
       else
-        redirect_to vote_poll_path(@po)
+        redirect_to vote_poll_path(@next)
       end
     end
 
-    #redirect_to poll_path(params[:poll_id])
-    #redirect_to votes_path
-    #
-    # !KOD NA PRZEKIEROWANIE DO NASTEPNEGO PYTANIA!
-    #
-    # @po = Poll.where('id > ?', params[:poll_id]).first
-    # if @po == nil 
-    #   redirect_to votes_path
-    # else
-    #   redirect_to vote_poll_path(@po)
-    # end
   end
 
   def destroy

@@ -3,7 +3,7 @@
 
 <div class="col-md-8"><br>
 <div class="well">
-<h2>Edycja pytania</h2>
+<h3><%= @poll.survey_id.nil? ? "Edycja sondy" : "Edycja pytania" %></h3>
 
 <%= render 'form' %>
 

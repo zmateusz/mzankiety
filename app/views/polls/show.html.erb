@@ -13,10 +13,12 @@
 <dl class="dl-horizontal">
   <dt>Autor:</dt>
   <dd><%= @poll.author %></dd>
+  <dt>Typ:</dt>
+  <dd><%= typeinfo(@poll.typ) %></dd>
   <dt>Data utworzenia:</dt>
   <dd><%= dateformat(@poll.created_at) %></dd>
   <dt>Data zakończenia:</dt>
-  <dd><%= @poll.ends_at ? dateformat(@poll.ends_at) : "brak" %></dd>
+  <dd><%= @poll.ends_at.nil? ? "brak" : dateformat(@poll.ends_at) %></dd>
 </dl>
 
 <p class="text-center">

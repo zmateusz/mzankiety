@@ -16,7 +16,7 @@
   <dt>Data utworzenia:</dt>
   <dd><%= dateformat(@survey.created_at) %></dd>
   <dt>Data zakończenia:</dt>
-  <dd><%= @survey.ends_at ? dateformat(@survey.ends_at) : "brak" %></dd>
+  <dd><%= @survey.ends_at.nil? ? "brak" : dateformat(@survey.ends_at) %></dd>
 </dl>
 
 <p class="text-center">
