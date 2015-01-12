@@ -1,3 +1,4 @@
+#encoding: utf-8
 class PollsController < ApplicationController
   before_action :set_poll, only: [:show, :edit, :update, :destroy, :vote, :results]
 
@@ -5,7 +6,7 @@ class PollsController < ApplicationController
   # GET /polls.json
   def index
     #@polls = Poll.order(:id).page params[:page]
-    @polls = Poll.order(created_at: :desc).where(:survey_id => nil) #:shared => true
+    @polls = Poll.order(created_at: :desc)#.where(:survey_id => nil) #:shared => true
   end
 
   # GET /polls/1
@@ -27,6 +28,9 @@ class PollsController < ApplicationController
   end
 
   def vote
+    if cookies["poll_#{@poll.id}"] == "voted"
+      redirect_to @poll, notice: 'Nie możesz ponownie głosować!' and return
+    end
     @polls = Poll.order(:id).page params[:page]
     #@vote = Vote.new
     @ans = [] 
@@ -111,6 +115,8 @@ class PollsController < ApplicationController
   # DELETE /polls/1
   # DELETE /polls/1.json
   def destroy
+    votes = Vote.where(:poll_id => @poll.id)
+    votes.each {|v| v.destroy}
     @poll.destroy
     respond_to do |format|
       format.html { redirect_to :back, notice: 'Poll was successfully destroyed.' }

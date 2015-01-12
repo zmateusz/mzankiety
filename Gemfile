@@ -22,7 +22,8 @@ end
 
 # development gems
 group :development, :test do
-  gem 'sqlite3', '1.3.9'    # dev & test database
+  gem 'pg'
+  #gem 'sqlite3', '1.3.9'    # dev & test database
   gem 'figaro', '0.7.0'     # env variables
 end
 

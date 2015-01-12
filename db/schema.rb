@@ -45,7 +45,7 @@ ActiveRecord::Schema.define(version: 20150108154648) do
     t.string   "typ"
     t.integer  "survey_id"
     t.boolean  "shared",     default: false, null: false
-    t.datetime "ends_at",                    null: false
+    t.datetime "ends_at"
   end
 
   add_index "polls", ["survey_id"], name: "index_polls_on_survey_id"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20150108154648) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "shared",     default: false, null: false
-    t.datetime "ends_at",                    null: false
+    t.datetime "ends_at"
   end
 
   create_table "users", force: true do |t|

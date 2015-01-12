@@ -31,7 +31,7 @@ class VotesController < ApplicationController
       @vote = Vote.new("author" => user, "poll_id" => params[:poll_id], "custom" => params[:vote][:vote])
       @vote.save
     end
-
+    cookies["poll_#{@poll.id}"] = { :value => "voted", :expires => 5.years.from_now }
     if @poll.survey_id == nil
       redirect_to result_poll_path(params[:poll_id])
     else
