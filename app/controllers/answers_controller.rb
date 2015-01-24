@@ -1,12 +1,12 @@
 class AnswersController < ApplicationController
 
   def index
-    @answers = Answer.all
+    @answers = Answer.order(created_at: :desc)
   end
 
   def create
     @poll = Poll.find(params[:poll_id])
-    @answer = @poll.answers.create(answer_params)
+    @poll.answers.create(answer_params)
     redirect_to :back
   end
 

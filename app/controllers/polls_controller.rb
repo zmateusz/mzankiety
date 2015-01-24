@@ -1,17 +1,24 @@
 #encoding: utf-8
 class PollsController < ApplicationController
-  before_action :set_poll, only: [:show, :edit, :update, :destroy, :vote, :results]
+  before_action :set_poll, only: [:show, :edit, :update, :destroy, :vote, :result]
+  before_action :authenticate_user!, only: [:new]
+  before_action :check_cookies, only: [:vote]
 
   # GET /polls
   # GET /polls.json
   def index
-    #@polls = Poll.order(:id).page params[:page]
-    @polls = Poll.order(created_at: :desc)#.where(:survey_id => nil) #:shared => true
+    @polls = Poll.where(survey_id: nil, shared: true).order(created_at: :desc)
   end
 
   # GET /polls/1
   # GET /polls/1.json
   def show
+    if @poll.ends_at
+      if @poll.ends_at < Time.now
+        @poll.votable = false
+        @poll.save
+      end
+    end
   end
 
   # GET /polls/new
@@ -28,15 +35,35 @@ class PollsController < ApplicationController
   end
 
   def vote
-    if cookies["poll_#{@poll.id}"] == "voted"
-      redirect_to @poll, notice: 'Nie możesz ponownie głosować!' and return
+    # render plain: params.inspect
+    # redirect_to @poll, notice: 'closed' and return unless @poll.votable
+    # redirect_to @poll, notice: 'closed' and return unless @poll.password == session[:pass]
+
+    if @poll.password != "" && @poll.private
+      redirect_to poll_path(@poll), notice: 'Podaj poprawne hasło aby głosować.' and return if params[:poll].nil?
+      if params[:poll][:pass] != @poll.password
+        redirect_to poll_path(@poll), notice: 'Podaj poprawne hasło aby głosować.' and return
+      else
+        session[:pass] = params[:pass]
+      end
     end
-    @polls = Poll.order(:id).page params[:page]
-    #@vote = Vote.new
-    @ans = [] 
-    @poll.answers.each do |answer| 
-      @ans.push(answer.option)
+    if @poll.survey != nil && session["first"] == @poll.id
+      if @poll.survey.private && params[:poll][:pass] != @poll.survey.password
+        redirect_to survey_path(@poll.survey_id), notice: 'Podaj poprawne hasło aby głosować.' and return
+      end
     end
+
+    # @polls = Poll.order(:id).page params[:page]
+
+    if @poll.typ == "Radio"
+      @answers = @poll.answers.order(created_at: :asc)
+    elsif @poll.typ == "Checkbox"
+      @answers = [] 
+      @poll.answers.order(created_at: :asc).each do |answer| 
+        @answers.push(answer.option)
+      end
+    end
+        
     if @poll.survey_id != nil
       session[:prog] = 1 if session[:prog] == nil
       n = Survey.find(@poll.survey_id).polls.count
@@ -48,19 +75,14 @@ class PollsController < ApplicationController
   end
 
   def result
-    @poll = Poll.find(params[:id])
-    case @poll.typ
-    when "Radio"
-      @ans = @poll.answers
-      @n = @poll.answers.sum(:counter).to_i
-    when "Checkbox"
-      @votes = Vote.where(:poll_id => @poll.id)
-      @count = @votes.count
-    when "Text"
-      @votes = Vote.where(:poll_id => @poll.id)
-      @count = @votes.count
-    else
-      puts "no type"
+    @answers = @poll.answers
+    @votes = @poll.votes.order(created_at: :desc)
+    @count = @votes.count
+    #@percent = Hash.new
+    #@answers.each {|ans| @percent[ans.id] = (ans.counter.to_f/@count*100).round(1)}
+    if @poll.typ == "Checkbox"
+      @votes_hash = Hash.new(0)
+      @votes.each {|v| @votes_hash[v.custom] += 1}
     end
   end
 
@@ -69,19 +91,18 @@ class PollsController < ApplicationController
   def create
     #render plain: params.inspect
     @poll = Poll.new(poll_params)
-    if params[:survey_id] != nil then @poll.survey_id = params[:survey_id] end
-    if current_user == nil
-      @poll.author = "anonim"
-    else
-      @poll.author = current_user.username
-    end
+    @poll.survey_id = params[:survey_id] if params[:survey_id] != nil
+
+    current_user == nil ? @poll.author = "anonim" : @poll.author = current_user.username
+
     respond_to do |format|
       if @poll.save
         format.html { 
+          @poll.answers.create(option: 'custom') if @poll.typ == "Text"
           if params[:survey_id] != nil
-            redirect_to detail_survey_path(params[:survey_id]), notice: 'Poll was successfully created.'
+            redirect_to detail_survey_path(params[:survey_id]), notice: 'Pytanie zostało dodane.'
           else
-            redirect_to @poll, notice: 'Poll was successfully created.' 
+            redirect_to detail_poll_path(@poll), notice: 'Sonda została utworzona.' 
           end
         }
         format.json { render :show, status: :created, location: @poll }
@@ -124,7 +145,7 @@ class PollsController < ApplicationController
     end
   end
 
-  def togglep
+  def setshared
     @poll = Poll.find(params[:id])
     if @poll.shared == true 
       @poll.shared = false
@@ -138,10 +159,12 @@ class PollsController < ApplicationController
 
   def detail
     @poll = Poll.find(params[:id])
+    @link = request.protocol + request.host_with_port + poll_path(@poll)
+    @link += "?pass=#{@poll.password}" if @poll.private 
   end
 
   def enddate
-    detail
+    @poll = Poll.find(params[:id])
     end_date = params[:poll]
     if @poll.ends_at.nil?
       new_date = DateTime.new(end_date["created_at(1i)"].to_i,
@@ -156,7 +179,32 @@ class PollsController < ApplicationController
                           end_date["ends_at(4i)"].to_i-1,
                           end_date["ends_at(5i)"].to_i)
     end
+    @poll.update_attribute(:votable, false) if new_date < Time.now
     @poll.update_attribute(:ends_at, new_date)
+    redirect_to :back
+  end
+
+  def setvotable
+    @poll = Poll.find(params[:id])
+    if @poll.votable == true 
+      @poll.votable = false
+      @poll.save
+    else
+      @poll.votable = true
+      @poll.save
+    end
+    redirect_to :back
+  end
+
+  def setpassword
+    @poll = Poll.find(params[:id])
+    @poll.password = params[:poll][:password]
+    if params[:poll][:password].empty?
+      @poll.private = false
+    else 
+      @poll.private = true
+    end
+    @poll.save
     redirect_to :back
   end
 

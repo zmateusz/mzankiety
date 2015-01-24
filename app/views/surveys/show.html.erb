@@ -19,11 +19,22 @@
   <dd><%= @survey.ends_at.nil? ? "brak" : dateformat(@survey.ends_at) %></dd>
 </dl>
 
+<% if @survey.votable %>
+<% if @survey.private %>
+<%= form_for @firstpoll, url: {controller: "polls", action: "vote", id: @firstpoll.id} do |f|%>
+  <p class="text-center">
+    <%= f.text_field :pass, :value => params[:pass] %> 
+    <%= f.submit "Wypełnij", class:"btn btn-success "%>
+  </p>
+<% end %>
+<% else %>
 <p class="text-center">
-<%= link_to 'Wypełnij', vote_poll_path(@survey.polls.first), method: 'get', class:"btn btn-success" if @survey.polls.present?%>
+<%= link_to 'Wypełnij', vote_poll_path(@firstpoll), method: 'get', class:"btn btn-success"%>
 </p>
+<% end %>
+<% end %>
 <hr>
-<p class="text-center"><%= link_to 'Powrót', surveys_path %> | <%= link_to "Pokaż szczegóły", detail_survey_path(@survey) %></p>
+<p class="text-center"><%= link_to "Pokaż szczegóły", detail_survey_path(@survey) if current_user && current_user.username == @survey.author %></p>
 </div>
 
 </div>

@@ -1,3 +1,5 @@
+<%= javascript_include_tag "http://www.google.com/jsapi" %>
+<%= javascript_include_tag "application", "chartkick" %>
 <div class="row">
 <div class="col-md-2"></div>
 
@@ -21,13 +23,25 @@
   <dd><%= @poll.ends_at.nil? ? "brak" : dateformat(@poll.ends_at) %></dd>
 </dl>
 
+<% if @poll.votable %>
+<% if @poll.private %>
+<%= form_for @poll, url: {action: "vote"} do |f|%>
+  <p class="text-center">
+    <%= f.text_field :pass, :value => params[:pass] %> 
+    <%= f.submit "Wypełnij", class:"btn btn-success "%>
+  </p>
+<% end %>
+<% else %>
 <p class="text-center">
 <%= link_to 'Wypełnij', vote_poll_path(@poll), method: 'get', class:"btn btn-success"%>
 </p>
+<% end %>
+<% end %>
+<%# pie_chart @ans.group(:option).sum(:counter) if @poll.typ == "Radio" %>
 <hr>
-<p class="text-center"><%= link_to 'Powrót', polls_path %> | <%= link_to "Pokaż szczegóły", detail_poll_path(@poll) %></p>
-</div>
+<p class="text-center"><%= link_to "Pokaż szczegóły", detail_poll_path(@poll) if current_user && current_user.username == @poll.author%></p>
 
+</div>
 </div>
 
 <div class="col-md-2"></div>

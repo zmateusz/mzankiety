@@ -30,7 +30,9 @@ en:
         name: "Nazwa"
   errors:
     messages:
-      blank: ": pole nie może być puste."
+      blank: "- pole nie może być puste."
+      taken: "- duplikat, podaj inny tekst."
+      too_long: "- zawartość jest za długa, maksimum to %{count} znaków."
   date:
     month_names: [~, styczeń, luty, marzec, kwiecień, maj, czerwiec, lipiec, sierpień, wrzesień, październik, listopad, grudzień]
     order:

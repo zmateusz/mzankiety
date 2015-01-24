@@ -1,8 +1,7 @@
 <% title("Strona główna") %>
-
 <div class="row">
   <div class="col-md-6 col-md-offset-1">
-    <h1><i class="fa fa-home"></i> Strona główna </h1>
+    <h3><i class="fa fa-home"></i> Strona główna </h3>
     <div class="well">
       <p><b>Najnowsza ankieta:</b></p>
       <% if @survey -%>
@@ -26,27 +25,38 @@
     </div>  
   </div>
 
-
   <div class="col-md-4">
-    <br>
-    <div class="panel panel-info">
-      <div class="panel-heading">
-        <h3 class="panel-title"><i class="fa fa-bar-chart"></i> Statystyki strony</h3>
+    <% if !user_signed_in? %>
+    <h3><i class="fa fa-user"></i> Logowanie</h3>
+    <div class="well">
+      <%= form_for(resource, :as => resource_name, :url => session_path(resource_name),
+        role: "form") do |f| %>
+      <div class="form-group">
+        <%= f.label :username, "Użytkownik" %>
+        <%= f.text_field :username, :autofocus => true, class: "form-control" %>  
       </div>
-      <div class="panel-body">
-        <h5>Ilość ankiet: <%= @polls %><br>
-        Ilość głosów: <%= @votes %><br>
-        Użytkowników: <%= @users %><br></h5>
+      <div class="form-group">
+        <%= f.label :password, "Hasło" %>
+        <%= f.password_field :password, class: "form-control" %>
       </div>
+      <% if devise_mapping.rememberable? -%>
+      <div class="form-group">
+      <%= f.check_box :remember_me %> <%= f.label :remember_me, "Zapamiętaj mnie" %>
+      </div>
+      <% end -%>
+      <%= f.submit "Zaloguj", class: "btn btn-success" %> <%= link_to "Zarejestruj", new_registration_path(resource_name) %>
+      <% end %>
     </div>
-    <%= image_tag('wip.png', size: "150") %>
-    <br>Wszystkie funkcje dostępne bez autoryzacji. <br>
+    <% else %>
+      <h3><i class="fa fa-user"></i> <%= current_user.username %></h3>
+      <div class="well">
+        <p><%= link_to '<i class="fa fa-edit fa-lg"></i> Edytuj konto'.html_safe, edit_user_registration_path %></p>
+        <p><%= link_to '<i class="fa fa-close fa-lg"></i> Wyloguj'.html_safe, destroy_user_session_path, data:{method: :delete} %></p>
+      </div>
+    <% end %>
+    Konto testowe: user1 - 1234<br>
     Do poprawnego wyświetlania wykresów zalecana aktualna przeglądarka. <br>
     Kod źródłowy <%= link_to 'tutaj.', "https://github.com/zmateusz/mzankiety" %>
-  </div>
-
-  <div class="col-md-1">
-
   </div>
 
 </div>

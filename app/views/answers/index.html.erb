@@ -1,16 +1,16 @@
 <div class="row">
 <div class="col-md-2"></div>
 
-<div class="col-md-10">
-<table class="table" style="width:550px">
+<div class="col-md-8">
+<table class="table">
   <thead>
     <tr>
-      <th class="col-md-1">id</th>
-      <th class="col-md-1">time</th>
-      <th class="col-md-1">option</th>
-      <th class="col-md-1">poll id</th>
-      <th class="col-md-1">poll</th>
-      <th class="col-md-1"></th>
+      <th >id</th>
+      <th >time</th>
+      <th >option</th>
+      <th >poll id</th>
+      <th >poll</th>
+      <th ></th>
     </tr>
   </thead>
 
@@ -22,8 +22,8 @@
         <td><%= answer.option %></td>
         <td><%= answer.poll_id %></td>
         <td><%= if answer.poll then answer.poll.name end %></td>
-        <td><%= link_to 'Destroy', answer, method: :delete, data: { confirm: 'Are you sure?' }%></td>
-        <td><%= answer.votes.count %></td>
+        <td><%= answer.counter %></td>
+        <td><%= link_to 'Usuń', answer, method: :delete, data: { confirm: 'Are you sure?' }%></td>
       </tr>
     <% end %>
   </tbody>

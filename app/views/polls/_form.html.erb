@@ -11,7 +11,7 @@
     </div>
   <% end %>
 
-  <a class="btn btn-primary" id="aaa" onclick="getRandom();">Random name</a>
+  <!-- <a class="btn btn-primary" id="aaa" onclick="getRandom();">Random name</a> -->
   
   <div class="form-group"> 
   <div class="field" style="width:100%">
@@ -24,7 +24,7 @@
   </div>
   <div class="field" style="width:40%">
     <%= f.label 'Typ' %><br>
-    <select multiple class="form-control" name="poll[typ]" id="poll_typ">
+    <select size="4" class="form-control" name="poll[typ]" id="poll_typ">
     <option value="Radio" selected="selected">Wybór jednokrotny</option>
     <option value="Checkbox">Wybór wielokrotny</option>
     <option value="Text">Dowolny tekst</option>

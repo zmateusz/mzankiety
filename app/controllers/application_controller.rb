@@ -52,5 +52,17 @@ class ApplicationController < ActionController::Base
     end
   end
   helper_method :require_admin!
+
+  def check_cookies
+    @poll = Poll.find(params[:id])
+    if cookies["poll_#{@poll.id}"] == "voted"
+      if @poll.survey
+        redirect_to @poll.survey, notice: 'Juz glosowano w tej ankiecie.'
+      else
+        redirect_to @poll, notice: 'Juz glosowano w tej sondzie.'
+      end
+    end
+  end
+  helper_method :check_cookies
   
 end

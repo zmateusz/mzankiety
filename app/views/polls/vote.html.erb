@@ -6,34 +6,33 @@
 <br><br>
 <div class="well">
 <h3><%= @poll.name %></h3>
-
   <%= raw @poll.descr %>
   <% case @poll.typ %>
   <% when "Radio"%>
   <div class="col-md-offset-2"><br>
   <%= form_for :vote do |f| %><h4>
-    <% @poll.answers.each do |answer| %>
+    <% @answers.each do |answer| %>
       <%= radio_button_tag(:vote, answer.id) %>
       <%= label_tag("vote_#{answer.id}", answer.option) %><br>
       <% end %><br>
-    <%= f.submit "Głosuj", class: 'btn btn-primary'%></h4>
+    <%= f.submit "Dalej", class: 'btn btn-primary'%></h4>
     <% end %>
   <% when "Checkbox"%>
   <div class="col-md-offset-2"><br>
     <%= simple_form_for :vote do |f| %>
-    <%= f.input :choices, as: :check_boxes, collection: @ans, label: false%><br>
-    <%= f.button :submit, "Głosuj", class: 'btn btn-primary'%>
+    <%= f.input :choices, as: :check_boxes, collection: @answers, label: false%><br>
+    <%= f.button :submit, "Dalej", class: 'btn btn-primary'%>
     <% end %>
   <% when "Text"%>
   <div class="col-md-offset-1"><br>
     <%= form_for :vote do |f| %>  
-      <p><%= f.text_area :vote , class: "form-control", style: "width:90%" %></p>
-    <%= f.submit "Głosuj", class: 'btn btn-primary'%>
+    <p><%= f.text_area :vote , class: "form-control", style: "width:90%" %></p>
+    <%= f.submit "Dalej", class: 'btn btn-primary'%>
     <% end %>
   <% when "Info"%>
   <div class="col-md-offset-2"><br>
     <%= form_for :vote do |f| %> 
-    <%= f.submit "Głosuj", class: 'btn btn-primary'%>
+    <%= f.submit "Dalej", class: 'btn btn-primary'%>
     <% end %>
   <% end %>
 

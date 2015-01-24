@@ -1,0 +1,43 @@
+<%= javascript_include_tag "http://www.google.com/jsapi" %>
+<%= javascript_include_tag "application", "chartkick" %>
+<div class="row">
+
+  <div class="col-md-8 col-md-offset-2">
+    <h4>Wyniki dla ankiety:</h4>
+    <h4><%= @survey.name %></h4>
+
+<div role="tabpanel">
+  <!-- Nav tabs nav-stacked, nav-pills or nav-tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation"><%= link_to "Pytania", result_survey_path(@survey) %></li>
+    <li role="presentation"><%= link_to "Głosy", votes_survey_path(@survey) %></li>
+    <li role="presentation" class="active"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Statystyki</a></li>
+  </ul>
+
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="result">
+
+      <% @polls.each do |poll| %>
+        <% case poll.typ %>
+        <% when "Radio" %>
+        <h4><%= poll.name %></h4>
+        <%= bar_chart poll.answers.group(:option).sum(:counter), colors: ["##{rand(100..999)}"] %>
+        <% when "Checkbox" %>
+        <h4><%= poll.name %></h4>
+        <% @v = Hash.new(0); poll.votes.each {|v| @v[v.custom] += 1} %>
+        <%= bar_chart @v, colors: ["##{rand(100..999)}"] %>
+        <% when "Text" %>
+        <h4><%= poll.name %></h4>
+        <%= link_to "Pokaż wszystkie", result_poll_path(poll) %>
+          <% poll.votes.limit(5).each do |vote| %>
+            <blockquote><%= vote.custom %>, <%= vote.author %></blockquote>
+          <% end %>
+        <% end %>
+      <% end %>
+
+    </div>
+  </div>
+</div>
+
+  </div>
+</div>

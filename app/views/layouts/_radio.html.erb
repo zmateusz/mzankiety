@@ -8,56 +8,64 @@
 
   <div class="tab-content">
     <div role="tabpanel" class="tab-pane active" id="stats">
+      <br><p><b>Wszystkich głosów: <%= @count %></b></p>
       <p>
-      <% @poll.answers.each do |answer| %>
-        <%= answer.option %> :
-        <%= answer.counter %>
-        <% @p = (answer.counter.to_f/@n*100).round(1) %>
-        ( <%= @p %>% )
-        <div class="progress">
-        <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<%= @p %>%;">
-        <span class="sr-only">60% Complete</span>
+        <% @answers.order(counter: :desc).each do |answer| %>
+        <%= answer.option %>: <%= answer.counter %>
+        <% @p = (answer.counter.to_f/@count*100).round(1) %>(<%= @p %>%)
+        <div class="progress" style="width:80%">
+        <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width:<%= @p %>%;">
         </div>
         </div>
-        <br>
         <% end %>
       </p>
-      <p>głosów: <%= @n %></p>
+
+      <table class="table table-hover table-bordered" style="width:60%">
+        <thead>
+          <tr>
+            <th class="col-md-2">Odpowiedź</th>
+            <th class="col-md-1">Głosy</th>
+            <th class="col-md-1">Procenty</th>
+          </tr>
+        </thead>
+        <tbody>
+       <% @answers.order(created_at: :asc).each do |answer| %>
+       <tr>
+        <td><%= answer.option %></td>
+        <td><%= answer.counter %></td>
+        <td><% @p = (answer.counter.to_f/@count*100).round(1) %><%= @p %>%</td>
+      <tr>
+       <% end %>
+       </tbody>
+      </table> 
+
     </div>
 
     <div role="tabpanel" class="tab-pane" id="charts">
-      <%= pie_chart @ans.group(:option).sum(:counter) %>
-      <%= column_chart @ans.group(:option).sum(:counter), colors: ["#999"] %>
-      <%= bar_chart @ans.group(:option).sum(:counter) %>
+      <%= pie_chart @answers.group(:option).sum(:counter) %>
+      <%= column_chart @answers.group(:option).sum(:counter) %>
+      <%= bar_chart @answers.group(:option).sum(:counter) %>
     </div>
 
     <div role="tabpanel" class="tab-pane" id="votes">
-      <table class="table" style="width:500px">
+      <table class="table table-hover">
         <thead>
           <tr>
-            <th class="col-md-2">author</th>
-            <th class="col-md-1">time</th>
-            <th class="col-md-2">answer id</th>
-            <th class="col-md-2">poll id</th>
-            <th class="col-md-1">answer</th>
-            <th class="col-md-1">poll</th>
-            <th class="col-md-1">custom</th>
+            <th>Odpowiedź</th>
+            <th>Użytkownik</th>
+            <th>Data</th>
+            <th></th>
           </tr>
         </thead>
 
         <tbody>
-          <% @poll.votes.each do |vote| %>
+          <% @votes.each do |vote| %>
             <tr>
+              <td><%= vote.answer.option if vote.answer%></td>
               <td><%= vote.author %></td>
-              <td><%= vote.created_at %></td>
-              <td><%= vote.answer_id %></td>
-              <td><%= vote.poll_id %></td>
-              <td><%= if vote.answer then vote.answer.option end%></td>
-              <!-- <td><%= if vote.answer then vote.answer.poll.name end %></td> -->
-              <td><%= @poll = Poll.find(vote.poll_id); @poll.name %></td>
-              <td><%= vote.custom %></td>
-              <td><%= link_to 'Destroy', vote, method: :delete, :remote=>true, :class=>'delete_item', data: { confirm: 'Are you sure?' }%>
-                <a href class="delete_item2" id="<%= vote.id %>" data-remote="true">ajax</a></td>
+              <td><%= dateformat(vote.created_at) %></td>
+              <td><%= link_to 'Usuń', vote, method: :delete, data: { confirm: 'Na pewno?' }%>
+                </td>
             </tr>
           <% end %>
         </tbody>

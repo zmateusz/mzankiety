@@ -4,11 +4,8 @@ class PagesController < ApplicationController
   ]
 
   def home
-    @polls = Poll.count
-    @votes = Vote.count
-    @users = User.count
-    @survey = Survey.last    
-    @poll = Poll.where(:survey_id => nil).last
+    @survey = Survey.where(shared: true).last 
+    @poll = Poll.where(survey_id: nil, shared: true).last
   end
   
   def inside

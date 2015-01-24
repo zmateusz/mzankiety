@@ -1,25 +1,27 @@
 <div class="row">
 <div class="col-md-2"></div>
 
-<div class="col-md-10">
+<div class="col-md-8">
 
-<table class="table" style="width:500px">
+<table class="table">
   <thead>
     <tr>
-      <th class="col-md-2">author</th>
-      <th class="col-md-1">time</th>
-      <th class="col-md-2">answer id</th>
-      <th class="col-md-2">poll id</th>
-      <th class="col-md-1">answer</th>
-      <th class="col-md-1">poll</th>
-      <th class="col-md-1">custom</th>
-      <th class="col-md-1">counter</th>
+      <th>voter</th>
+      <th>author</th>
+      <th>time</th>
+      <th>answer id</th>
+      <th>poll id</th>
+      <th>answer</th>
+      <th>poll</th>
+      <th>custom</th>
+      <th>counter</th>
     </tr>
   </thead>
 
   <tbody>
     <% @votes.each do |vote| %>
       <tr>
+        <td><%= vote.voter %></td>
         <td><%= vote.author %></td>
         <td><%= vote.created_at %></td>
         <td><%= vote.answer_id %></td>
@@ -29,8 +31,7 @@
         <td><%= @poll = Poll.find(vote.poll_id); @poll.name %></td>
         <td><%= vote.custom %></td>
         <td><%= vote.answer.counter if vote.answer %></td>
-        <td><%= link_to 'Destroy', vote, method: :delete, :remote=>true, :class=>'delete_item', data: { confirm: 'Are you sure?' }%>
-          <a href class="delete_item2" id="<%= vote.id %>" data-remote="true">ajax</a></td>
+        <td><%= link_to 'Usuń', vote, method: :delete, :class=>'delete_item', data: { confirm: 'Are you sure?' }%></td>
       </tr>
     <% end %>
   </tbody>

@@ -1,0 +1,68 @@
+<div class="row">
+
+  <div class="col-md-8 col-md-offset-2">
+    <h4>Wyniki dla ankiety:</h4>
+    <h4><%= @survey.name %></h4>
+
+<div role="tabpanel">
+  <!-- Nav tabs nav-stacked, nav-pills or nav-tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation"><%= link_to "Pytania", result_survey_path(@survey) %></li>
+    <li role="presentation" class="active"><a href="#stats" aria-controls="stats" role="tab" data-toggle="tab">Głosy</a></li>
+    <li role="presentation"><%= link_to "Statystyki", stats_survey_path(@survey) %></li>
+  </ul>
+
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="result">
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Użytkownik</th>
+            <th>Data</th>
+            <th>Głosy</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% @voters.each do |k,v| %>
+            <tr>
+              <td><%= k %></td>
+              <td><%= v[0] %></td>
+              <td><%= dateformat(v[1]) %></td>
+              <td>
+
+              <button class="btn btn-primary" data-toggle="modal" data-target="#voter-<%= k %>">Pokaż</button>
+
+              <div class="modal" id="voter-<%= k %>" tabindex="-1" role="dialog" aria-labelledby="voter-<%= k %>-label" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title" id="voter-<%= k %>-label"><%= "Użytkownik: #{v[0]}, data: #{dateformat(v[1])}"%></h4>
+                    </div>
+                    <div class="modal-body">
+                      <% @votes.where(voter: k).order(created_at: :asc).each do |vote| %>
+                        <p><h4><%= vote.poll.name %></h4>
+                        <blockquote><p><%= vote.custom %></p></blockquote></p>
+                      <% end %>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-dismiss="modal">Zamknij</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+
+    </div>
+  </div>
+</div>
+
+  </div>
+</div>

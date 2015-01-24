@@ -3,7 +3,8 @@
 <div class="row">
 
   <div class="col-md-8 col-md-offset-2">
-    <h3>Wyniki dla sondy:</h3>
+    <h4><%=raw @poll.survey.nil? ? "Wyniki dla sondy" : "Wyniki dla pytania 
+    | <u>#{link_to 'Powrót do wyników ankiety', result_survey_path(@poll.survey), class:"text-success"}</u>" %></h4>
     <h4><%= @poll.name %></h4>
     <%= render "layouts/#{@poll.typ.downcase}" %>
   </div>

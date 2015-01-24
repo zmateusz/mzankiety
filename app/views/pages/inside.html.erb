@@ -16,22 +16,21 @@
     <tr>
       <th class="col-md-3">Nazwa</th>
       <th class="col-md-1">Data</th>
-      <th class="col-md-1">Głosy</th>
+      <th class="col-md-1">Wypełnienia</th>
       <th class="col-md-1"></th>
       <th class="col-md-1"></th>
       <th class="col-md-1"></th>
     </tr>
   </thead>
-  
   <tbody>
     <% @surveys.each do |survey| %>
       <tr>
-        <td><%= link_to survey.name, survey %></td>
-        <td><%= survey.created_at.strftime("%R @ %d-%m-%Y") %></td>
-        <td><%= Vote.where(:poll_id => survey.id).count %></td>
-        <td><%= link_to 'Edytuj', edit_survey_path(survey), method: 'get', class:"btn btn-info" %></td>
-        <td><%= link_to 'Głosuj', vote_survey_path(survey), method: 'get', class:"btn btn-success"%></td>
-        <td><%= button_to 'Usuń', survey, method: :delete, data: { confirm: 'Na pewno?' }, class:"btn btn-danger" %></td>
+        <td><%= link_to survey.name, detail_survey_path(survey) %></td>
+        <td><%= dateformat(survey.created_at) %></td>
+        <td><%= survey.votes.pluck(:voter).uniq.count %></td>
+        <td><%= link_to 'Usuń', survey, method: :delete, data: { confirm: 'Na pewno?' }, class:"btn btn-danger" %></td>
+        <td><%= link_to 'Pokaż', survey, method: 'get', class:"btn btn-info" %></td>
+        <td><%= link_to 'Wyniki', result_survey_path(survey), method: 'get', class:"btn btn-success" %></td>
       </tr>
     <% end %>
   </tbody>
@@ -49,10 +48,8 @@
   <thead>
     <tr>
       <th class="col-md-3">Nazwa</th>
-      <th class="col-md-1">Typ</th>
       <th class="col-md-1">Data</th>
       <th class="col-md-1">Głosy</th>
-      <th class="col-md-1"></th>
       <th class="col-md-1"></th>
       <th class="col-md-1"></th>
       <th class="col-md-1"></th>
@@ -63,13 +60,11 @@
     <% @polls.each do |poll| %>
       <tr>
         <td><%= link_to poll.name, detail_poll_path(poll) %></td>
-        <td><%= poll.typ %></td>
-        <td><%= poll.created_at.strftime("%R @ %d-%m-%Y") %></td>
-        <td><%= Vote.where(:poll_id => poll.id).count %></td>
-        <td><%= button_to 'Edytuj', edit_poll_path(poll), method: 'get', class:"btn btn-info" %></td>
-        <td><%= button_to 'Głosuj', vote_poll_path(poll), method: 'get', class:"btn btn-success"%></td>
+        <td><%= dateformat(poll.created_at) %></td>
+        <td><%= Vote.where(poll_id: poll.id).count %></td>
+        <td><%= link_to 'Usuń', poll, method: :delete, data: { confirm: 'Na pewno?' }, class:"btn btn-danger" %></td>
+        <td><%= button_to 'Pokaż', poll, method: 'get', class:"btn btn-info" %></td>
         <td><%= button_to 'Wyniki', result_poll_path(poll), method: 'get', class:"btn btn-success"%></td>
-        <td><%= button_to 'Usuń', poll, method: :delete, data: { confirm: 'Na pewno?' }, class:"btn btn-danger" %></td>
       </tr>
     <% end %>
   </tbody>
