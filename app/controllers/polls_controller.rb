@@ -100,7 +100,11 @@ class PollsController < ApplicationController
         format.html { 
           @poll.answers.create(option: 'custom') if @poll.typ == "Text"
           if params[:survey_id] != nil
-            redirect_to detail_survey_path(params[:survey_id]), notice: 'Pytanie zostało dodane.'
+            if @poll.typ == "Radio" || @poll.typ == "Checkbox"
+              redirect_to detail_poll_path(@poll), notice: 'Pytanie zostało utworzone. Dodaj teraz odpowiedzi.'
+            elsif @poll.typ == "Text" || @poll.typ == "Info"
+              redirect_to detail_survey_path(params[:survey_id]), notice: 'Pytanie zostało utworzone.'
+            end
           else
             redirect_to detail_poll_path(@poll), notice: 'Sonda została utworzona.' 
           end
@@ -124,7 +128,13 @@ class PollsController < ApplicationController
   def update
     respond_to do |format|
       if @poll.update(poll_params)
-        format.html { redirect_to @poll, notice: 'Poll was successfully updated.' }
+        format.html {
+          if @poll.survey_id == nil
+            redirect_to detail_poll_path(@poll), notice: 'Sonda została zaktualizowana.'
+          else
+            redirect_to detail_survey_path(@poll.survey_id), notice: 'Pytanie zostało zaktualizowane.'
+          end 
+        }
         format.json { render :show, status: :ok, location: @poll }
       else
         format.html { render :edit }
@@ -140,7 +150,13 @@ class PollsController < ApplicationController
     votes.each {|v| v.destroy}
     @poll.destroy
     respond_to do |format|
-      format.html { redirect_to :back, notice: 'Poll was successfully destroyed.' }
+      format.html { 
+        if @poll.survey_id == nil
+          redirect_to :back, notice: 'Sonda została usunięta.'
+        else
+          redirect_to :back, notice: 'Pytanie zostało usunięte.'
+        end
+      }
       format.json { head :no_content }
     end
   end

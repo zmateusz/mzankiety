@@ -55,11 +55,21 @@ class ApplicationController < ActionController::Base
 
   def check_cookies
     @poll = Poll.find(params[:id])
-    if cookies["poll_#{@poll.id}"] == "voted"
-      if @poll.survey
-        redirect_to @poll.survey, notice: 'Juz glosowano w tej ankiecie.'
-      else
-        redirect_to @poll, notice: 'Juz glosowano w tej sondzie.'
+    if user_signed_in?
+      unless Vote.find_by(author: current_user.username, poll_id: @poll.id).blank?
+        if @poll.survey
+          redirect_to @poll.survey, notice: "#{current_user.username}, juz glosowano w tej ankiecie."
+        else
+          redirect_to @poll, notice: "#{current_user.username}, juz glosowano w tej sondzie."
+        end
+      end
+    else
+      if cookies["poll_#{@poll.id}"] == "voted"
+        if @poll.survey
+          redirect_to @poll.survey, notice: 'Juz glosowano w tej ankiecie.'
+        else
+          redirect_to @poll, notice: 'Juz glosowano w tej sondzie.'
+        end
       end
     end
   end

@@ -56,7 +56,7 @@ class SurveysController < ApplicationController
   def update
     respond_to do |format|
       if @survey.update(survey_params)
-        format.html { redirect_to @survey, notice: 'Ankieta zostala pomyslnie zaktualizowana.' }
+        format.html { redirect_to detail_survey_path(@survey), notice: 'Ankieta zostala pomyslnie zaktualizowana.' }
         format.json { render :show, status: :ok, location: @survey }
       else
         format.html { render :edit }

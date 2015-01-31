@@ -9,7 +9,12 @@ class VotesController < ApplicationController
   def create
     #render plain: params[:vote].inspect
     @poll = Poll.find(params[:poll_id])
-    redirect_to vote_poll_path(@poll, pass: @poll.password), notice: 'Musisz zaznaczyć co najmniej jedną odpowiedź.' and return if params[:vote].nil? && @poll.typ != "Info"
+    if @poll.typ == "Radio"
+      redirect_to vote_poll_path(@poll, pass: @poll.password), notice: 'Musisz zaznaczyć co najmniej jedną odpowiedź.' and return if params[:vote].nil?
+    end
+    if @poll.typ == "Checkbox"
+      redirect_to vote_poll_path(@poll, pass: @poll.password), notice: 'Musisz zaznaczyć co najmniej jedną odpowiedź.' and return if params[:vote][:choices] == [""]
+    end
     if current_user == nil
       user = "anonim"
     else
@@ -36,7 +41,7 @@ class VotesController < ApplicationController
       # @boxes[:choices].reject! { |c| c.empty? }
       @text = @boxes[:choices].reject!{|c| c.empty?}.join(', ')
       @boxes[:choices].each do |ans|
-        a = Answer.find_by(option: ans)
+        a = Answer.find_by(option: ans, poll_id: @poll.id)
         a.counter += 1
         @answerid = a.id
         a.save
@@ -70,7 +75,7 @@ class VotesController < ApplicationController
     if @vote.poll.typ == "Checkbox"
       custom = @vote.custom.split(', ')
       custom.each do |c|
-        a = Answer.find_by(option: c)
+        a = Answer.find_by(option: c, poll_id: @vote.poll_id)
         a.counter -= 1
         a.save
       end
