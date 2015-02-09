@@ -81,6 +81,7 @@ class PollsController < ApplicationController
     #@percent = Hash.new
     #@answers.each {|ans| @percent[ans.id] = (ans.counter.to_f/@count*100).round(1)}
     if @poll.typ == "Checkbox"
+      @counter = @answers.sum(:counter)
       @votes_hash = Hash.new(0)
       @votes.each {|v| @votes_hash[v.custom] += 1}
     end
